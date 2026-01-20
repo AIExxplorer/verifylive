@@ -1,4 +1,4 @@
--- Create a table for public profiles
+  -- Create a table for public profiles
 create table profiles (
   id uuid references auth.users not null primary key,
   updated_at timestamp with time zone,

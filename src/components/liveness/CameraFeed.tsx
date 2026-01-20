@@ -127,8 +127,8 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
 
                              try {
                                  const results = landmarker.detectForVideo(video, startTimeMs);
-                                 // Draw face mesh RAW - CSS handles mirroring
-                                 drawFaceMesh(ctx, results, false);
+                                 // Draw face mesh with INVERTED coordinates to compensate CSS mirroring
+                                 drawFaceMesh(ctx, results, true);
                              } catch (err) {
                                  console.warn("Frame processing skipped:", err);
                              }
