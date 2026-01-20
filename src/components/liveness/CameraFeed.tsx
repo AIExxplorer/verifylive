@@ -15,11 +15,11 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
   const requestRef = useRef<number>(null);
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    // Fix: We don't need to track mounting for this specific hydration fix if we just rely on client-side loading
-    const timer = setTimeout(() => setIsMounted(true), 0);
-    return () => clearTimeout(timer);
-  }, []); // Run once on mount
+  // Removed standalone effect as it's merged into the main one to coordinate cleanup
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setIsMounted(true), 0);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   // ... rest of component
 
@@ -42,6 +42,8 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
   }));
 
   useEffect(() => {
+    let isActive = true; // Flag to prevent orphaned loops
+    let frameId: number;
     let video: HTMLVideoElement | null = null;
 
     const startCamera = async () => {
@@ -55,30 +57,39 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
         };
 
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        
+        if (!isActive) {
+            stream.getTracks().forEach(track => track.stop());
+            return;
+        }
 
         if (videoRef.current) {
             video = videoRef.current;
             video.srcObject = stream;
             video.onloadedmetadata = () => {
-                video?.play();
-                startDetection();
+                if (isActive) {
+                    video?.play();
+                    startDetection();
+                }
             };
         }
       } catch (err) {
         console.error("Error accessing camera:", err);
-        setError("Camera access denied. Please verify permissions.");
+        if (isActive) setError("Camera access denied. Please verify permissions.");
       }
     };
 
     const startDetection = async () => {
         const service = FaceMeshService.getInstance();
         await service.initialize();
+        
+        if (!isActive) return; // Stop if unmounted during await
+
         const landmarker = service.getLandmarker();
 
         if (!landmarker || !videoRef.current || !canvasRef.current) return;
 
-        // Ensure canvas matches video internal resolution for drawing, but css handles display
-    // Ensure canvas matches video internal resolution for drawing
+        // Ensure canvas matches video internal resolution for drawing
         const syncCanvas = () => {
              if (videoRef.current && canvasRef.current) {
                  canvasRef.current.width = videoRef.current.videoWidth;
@@ -89,6 +100,8 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
 
         let lastVideoTime = -1;
         const detect = () => {
+             if (!isActive) return; // Stop loop if unmounted
+
              if (videoRef.current && canvasRef.current && landmarker) {
                  const video = videoRef.current;
                  // standard check for video readiness
@@ -118,17 +131,19 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
                      }
                  }
              }
-             requestRef.current = requestAnimationFrame(detect);
+             frameId = requestAnimationFrame(detect);
         };
         detect();
     };
 
+    const timer = setTimeout(() => setIsMounted(true), 0);
     startCamera();
 
     return () => {
-      if (requestRef.current) {
-        cancelAnimationFrame(requestRef.current);
-      }
+      isActive = false; // Kill any pending async assignments or loops
+      clearTimeout(timer);
+      cancelAnimationFrame(frameId); // Kill the loop
+      
       if (video && video.srcObject) {
          const stream = video.srcObject as MediaStream;
          stream.getTracks().forEach(track => track.stop());
