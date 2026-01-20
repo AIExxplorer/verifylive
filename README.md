@@ -1,49 +1,53 @@
 # VerifyLive 🛡️
 
-> **Biometric Liveness Detection & Anti-Deepfake System powered by Gemini 3 Multimodal.**
+> **Competidor do HACKATHON DO GEMINI 3** 🏆
+> _Biometric Liveness Detection & Anti-Deepfake System powered by Gemini 3 Multimodal._
 > _Compliance with LGPD & Lei Felca._
+
+```text
+   █████╗ ██╗███████╗██╗  ██╗██╗  ██╗
+   ██╔══██╗██║██╔════╝╚██╗██╔╝╚██╗██╔╝
+   ███████║██║█████╗   ╚███╔╝  ╚███╔╝
+   ██╔══██║██║██╔══╝   ██╔██╗  ██╔██╗
+   ██║  ██║██║███████╗██╔╝ ██╗██╔╝ ██╗
+   ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
+```
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Next.js](https://img.shields.io/badge/Next.js-15+-black)
 ![Gemini 3](https://img.shields.io/badge/AI-Gemini%203-4285F4)
 ![Supabase](https://img.shields.io/badge/Backend-Supabase-3ECF8E)
 
-## 📋 Project Overview
+## 🏗️ Project Overview
 
-**VerifyLive** is a forensic-grade biometric verification system designed for the **Gemini 3 Hackathon**. It leverages Google's **Gemini 3 Multimodal** API to perform deep semantic analysis of video streams, ensuring liveness and detecting deepfakes with explainable AI reasoning.
+**VerifyLive** is a forensic-grade biometric verification system built for the **Gemini 3 Hackathon**. It leverages the Action Era capabilities of the **Gemini 3 Multimodal API** to perform deep semantic reasoning on video streams, detecting deepfakes and ensuring liveness in real-time.
 
-The system is architected to be fully compliant with **LGPD** (General Data Protection Law) and **Lei Felca** (Child Protection), ensuring privacy-by-design and rigorous audit trails.
+### 🎯 Hackathon Theme Alignment
 
-## 🏗️ Technical Stack
+This project aligns with the **Action Era** and **Omni-Agent** themes by:
 
-### Core AI & Vision
+- **Native Multimodality**: Processing live video/audio streams directly through Gemini 3.
+- **Thought Signatures**: Providing explainable forensic reasoning for every liveness decision.
+- **Human-AI Synergy**: Empowering compliance auditors with AI-generated forensic reports.
 
-- **Gemini 3 Multimodal**: Primary forensic engine for deepfake detection and logic reasoning.
-- **MediaPipe**: Real-time browser-side facial landmark detection (Zero Latency).
-- **Google Cloud Vision API**: OCR and face matching verification.
+## 🛠️ Technical Stack & Architecture
 
-### Frontend
+### Core AI (Gemini 3)
 
-- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router, Server Actions).
-- **Styling**: Tailwind CSS (v4).
-- **State/Orchestration**: **Context7 MCP** (Mandatory context orchestration).
+- **Model**: `gemini-2.0-flash-thinking-exp` (or latest Gemini 3 variant).
+- **Capabilities**: Vision reasoning, Deepfake detection, Contextual awareness.
+- **Orchestration**: **Context7 MCP**.
 
-### Backend & Infrastructure
+### Vision & Liveness
 
-- **Database/Auth**: [Supabase](https://supabase.com/).
-- **Orchestration Layer**: Supabase Edge Functions.
-- **Storage**: Google Cloud Storage (with 24h Auto-Delete TTL).
-- **Audit Logs**: Google Cloud Logging (Immutable records).
-- **AI Gateway**: Google Cloud Vertex AI.
+- **Client-Side**: MediaPipe (Zero Latency Landmark Detection).
+- **Server-Side**: Google Cloud Vision API (OCR & Verification).
 
-## 📐 Architecture
+### Infrastructure
 
-The system follows a decoupled security-first architecture:
-
-1.  **Client (Web)**: Captures signed WebRTC streams. Performs initial passive liveness checks via MediaPipe.
-2.  **Orchestrator (Edge)**: Receives signed payloads, validates sessions, and routes to AI services.
-3.  **Forensic Engine (Gemini 3)**: Analyzes video frames + prompt context to determine liveness (`is_real_person`) and fraud probability.
-4.  **Audit Layer**: Every verification attempt is logged immutably for legal compliance (Lei Felca).
+- **Frontend**: Next.js 15+ (App Router, Server Actions).
+- **Backend**: Supabase (PostgreSQL, Auth, Edge Functions).
+- **Compliance**: Google Cloud Logging (Immutable Audit Trails).
 
 ## 🛡️ Compliance & Ethics
 
@@ -90,17 +94,16 @@ The system follows a decoupled security-first architecture:
     cp .env.example .env.local
     ```
 
-    _Required Keys:_
-    - `NEXT_PUBLIC_GEMINI_API_KEY`
-    - `NEXT_PUBLIC_SUPABASE_URL`
-    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-    - `GOOGLE_CLOUD_PROJECT_ID`
-    - `CONTEXT7_API_KEY`
-
 4.  **Run Development Server**
     ```bash
     npm run dev
     ```
+
+## 🎥 Demo & Submission
+
+- **Video Demo**: [Link to YouTube/Vimeo Demo] (Coming Soon)
+- **Live Demo**: [Link to Vercel Deployment] (Coming Soon)
+- **Devpost Submission**: [Link to Devpost]
 
 ## 🤝 Contributing
 
