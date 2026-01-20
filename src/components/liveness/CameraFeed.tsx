@@ -87,21 +87,34 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
         }
         videoRef.current.addEventListener('loadeddata', syncCanvas);
 
+        let lastVideoTime = -1;
         const detect = () => {
              if (videoRef.current && canvasRef.current && landmarker) {
-                 const startTimeMs = performance.now();
-                 if(videoRef.current.videoWidth > 0) {
-                     // Ensure canvas dimensions match video for correct mapping
-                     if (canvasRef.current.width !== videoRef.current.videoWidth || 
-                         canvasRef.current.height !== videoRef.current.videoHeight) {
-                         syncCanvas();
-                     }
+                 const video = videoRef.current;
+                 // standard check for video readiness
+                 if (video.readyState >= 2 && video.videoWidth > 0 && !video.paused) {
+                     const startTimeMs = performance.now();
                      
-                     const results = landmarker.detectForVideo(videoRef.current, startTimeMs);
-                     const ctx = canvasRef.current.getContext("2d");
-                     if (ctx) {
-                         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-                         drawFaceMesh(ctx, results);
+                     // Ensure monotonic timestamp increase to prevent WASM crash
+                     if (startTimeMs > lastVideoTime) {
+                         lastVideoTime = startTimeMs;
+                         
+                         // Ensure canvas dimensions match video for correct mapping
+                         if (canvasRef.current.width !== video.videoWidth || 
+                             canvasRef.current.height !== video.videoHeight) {
+                             syncCanvas();
+                         }
+                         
+                         try {
+                             const results = landmarker.detectForVideo(video, startTimeMs);
+                             const ctx = canvasRef.current.getContext("2d");
+                             if (ctx) {
+                                 ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+                                 drawFaceMesh(ctx, results);
+                             }
+                         } catch (err) {
+                             console.warn("Frame processing skipped:", err);
+                         }
                      }
                  }
              }
