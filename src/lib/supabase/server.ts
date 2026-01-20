@@ -1,8 +1,9 @@
 "use server";
 
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+// Client for User interactions (RLS applies)
 export async function createClient() {
   const cookieStore = await cookies();
 
@@ -14,24 +15,43 @@ export async function createClient() {
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
-        set(name: string, value: string, options: CookieOptions) {
+        set(name: string, value: string, options: any) {
           try {
             cookieStore.set({ name, value, ...options });
           } catch (error) {
-            // The `set` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // Ignored
           }
         },
-        remove(name: string, options: CookieOptions) {
+        remove(name: string, options: any) {
           try {
             cookieStore.set({ name, value: "", ...options });
           } catch (error) {
-            // The `delete` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // Ignored
           }
         },
+      },
+    }
+  );
+}
+
+// Client for Admin/System interactions (Bypasses RLS)
+// requires SUPABASE_SERVICE_ROLE_KEY in .env
+export async function createAdminClient() {
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!serviceRoleKey) {
+    console.warn("DEBUG: SUPABASE_SERVICE_ROLE_KEY is missing. Admin features (bypass RLS) will fail.");
+    return null; // Return null so caller knows it failed
+  }
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    serviceRoleKey, 
+    {
+      cookies: {
+        get(name: string) { return "" },
+        set(name: string, value: string, options: any) {},
+        remove(name: string, options: any) {},
       },
     }
   );

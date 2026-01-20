@@ -8,7 +8,11 @@ export interface CameraFeedRef {
     captureFrame: () => string | null;
 }
 
-export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
+interface CameraFeedProps {
+    className?: string;
+}
+
+export const CameraFeed = forwardRef<CameraFeedRef, CameraFeedProps>((props, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [error, setError] = useState<string | null>(null);
@@ -95,18 +99,18 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
   }, []);
 
   return (
-    <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden">
-        {error && <div className="absolute inset-0 flex items-center justify-center text-red-500">{error}</div>}
+    <div className={`relative w-full h-full bg-black overflow-hidden ${props.className || ''}`}>
+        {error && <div className="absolute inset-0 flex items-center justify-center text-red-500 z-50">{error}</div>}
         <video 
             ref={videoRef}
             autoPlay 
             playsInline
             muted
-            className="absolute inset-0 w-full h-full object-contain"
+            className="absolute inset-0 w-full h-full object-cover transform -scale-x-100" // Mirror effect + Cover
         />
         <canvas 
             ref={canvasRef}
-            className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none transform -scale-x-100" // Mirror match
         />
     </div>
   );

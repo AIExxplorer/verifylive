@@ -1,27 +1,77 @@
 "use client";
 
-import { IdCard, Globe, FileText } from "lucide-react";
+import { IdCard, Globe, FileText, Camera, Upload } from "lucide-react";
 import { useState } from "react";
 
 export type DocumentType = "CNH" | "RG" | "PASSPORT";
+export type SubmissionMethod = "CAMERA" | "PDF";
 
 interface DocumentSelectorProps {
-  onSelect: (type: DocumentType) => void;
+  onSelect: (type: DocumentType, method: SubmissionMethod) => void;
 }
 
 export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
+  const [selectedDoc, setSelectedDoc] = useState<DocumentType | null>(null);
+
+  // If a doc type is selected, show method choice (Camera vs PDF)
+  if (selectedDoc) {
+    return (
+      <div className="w-full max-w-md mx-auto space-y-6 animate-in zoom-in-95 duration-300">
+        <div className="text-center space-y-2">
+           <button onClick={() => setSelectedDoc(null)} className="text-xs text-muted-foreground hover:text-foreground mb-2">
+             ← Voltar
+           </button>
+           <h2 className="text-2xl font-bold">Como deseja enviar?</h2>
+           <p className="text-sm text-muted-foreground">
+             Para {selectedDoc === "CNH" ? "CNH" : selectedDoc === "RG" ? "RG" : "Passaporte"}, você pode:
+           </p>
+        </div>
+
+        <div className="grid gap-4">
+           {/* Option 1: Live Camera */}
+           <button
+             onClick={() => onSelect(selectedDoc, "CAMERA")}
+             className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-all border-l-4 border-l-emerald-500"
+           >
+             <div className="bg-emerald-500/10 p-3 rounded-full">
+               <Camera className="w-6 h-6 text-emerald-600" />
+             </div>
+             <div className="text-left">
+               <div className="font-semibold">Usar Câmera (Físico)</div>
+               <div className="text-xs text-muted-foreground">Tenho o documento em mãos</div>
+             </div>
+           </button>
+
+           {/* Option 2: PDF Upload */}
+           <button
+             onClick={() => onSelect(selectedDoc, "PDF")}
+             className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-all border-l-4 border-l-blue-500"
+           >
+             <div className="bg-blue-500/10 p-3 rounded-full">
+               <Upload className="w-6 h-6 text-blue-600" />
+             </div>
+             <div className="text-left">
+               <div className="font-semibold">Upload Digital (PDF)</div>
+               <div className="text-xs text-muted-foreground">Baixado do Gov.br / App Oficial</div>
+             </div>
+           </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-md mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold tracking-tight">Qual documento você vai usar?</h2>
         <p className="text-muted-foreground text-sm">
-          Selecione o documento físico que você tem em mãos agora.
+          Selecione o documento para validação.
         </p>
       </div>
 
       <div className="grid gap-4">
         <button
-          onClick={() => onSelect("CNH")}
+          onClick={() => setSelectedDoc("CNH")}
           className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-all hover:scale-[1.02] active:scale-95 group text-left"
         >
           <div className="bg-blue-500/10 p-3 rounded-lg group-hover:bg-blue-500/20 transition-colors">
@@ -34,7 +84,7 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
         </button>
 
         <button
-          onClick={() => onSelect("RG")}
+          onClick={() => setSelectedDoc("RG")}
           className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-all hover:scale-[1.02] active:scale-95 group text-left"
         >
           <div className="bg-green-500/10 p-3 rounded-lg group-hover:bg-green-500/20 transition-colors">
@@ -42,12 +92,12 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
           </div>
           <div>
             <div className="font-semibold">RG (Identidade)</div>
-            <div className="text-xs text-muted-foreground">Registro Geral (com foto recente)</div>
+            <div className="text-xs text-muted-foreground">Registro Geral</div>
           </div>
         </button>
 
         <button
-          onClick={() => onSelect("PASSPORT")}
+          onClick={() => setSelectedDoc("PASSPORT")}
           className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-all hover:scale-[1.02] active:scale-95 group text-left"
         >
           <div className="bg-purple-500/10 p-3 rounded-lg group-hover:bg-purple-500/20 transition-colors">
@@ -55,7 +105,7 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
           </div>
           <div>
             <div className="font-semibold">Passaporte</div>
-            <div className="text-xs text-muted-foreground">Válido para brasileiros e estrangeiros</div>
+            <div className="text-xs text-muted-foreground">Para estrangeiros ou viagem</div>
           </div>
         </button>
       </div>
