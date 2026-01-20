@@ -1,11 +1,11 @@
 import { LivenessContainer } from "@/components/liveness/LivenessContainer";
-import { Footer } from "@/components/Footer";
+import { AppFooter } from "@/components/AppFooter";
 
 export default function Home() {
   return (
     <main>
       <LivenessContainer />
-      <Footer />
+      <AppFooter />
     </main>
   );
 }

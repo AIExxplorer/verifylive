@@ -1,7 +1,7 @@
 import { Github, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 
-export function Footer() {
+export function AppFooter() {
   return (
     <footer className="fixed bottom-0 left-0 w-full z-50 pointer-events-none">
       {/* Background Gradient & Solid Base */}
