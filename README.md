@@ -499,13 +499,54 @@ test: adição de testes
 chore: tarefas de manutenção
 ```
 
+### 🌳 Estrutura de Branches (GitFlow)
+
+Este projeto segue um fluxo de trabalho **GitFlow Simplificado**:
+
+```
+                    ┌──────────────┐
+                    │     main     │  ← Produção (Estável)
+                    └──────┬───────┘
+                           │
+                    ┌──────▼───────┐
+                    │   develop    │  ← Integração (Default Dev)
+                    └──────┬───────┘
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+   ┌──────▼──────┐  ┌──────▼──────┐  ┌──────▼──────┐
+   │ feature/*   │  │   test/qa   │  │  hotfix/*   │
+   └─────────────┘  └─────────────┘  └─────────────┘
+```
+
+| Branch      | Propósito                                    |
+| ----------- | -------------------------------------------- |
+| `main`      | Código em produção, releases estáveis        |
+| `develop`   | Branch de integração, recebe PRs de features |
+| `test/qa`   | Homologação e testes de QA                   |
+| `feature/*` | Novas funcionalidades                        |
+| `hotfix/*`  | Correções urgentes em produção               |
+
+### 📋 Templates de Comunidade
+
+Este repositório inclui templates padronizados para facilitar contribuições:
+
+| Template                                                     | Descrição                                    |
+| ------------------------------------------------------------ | -------------------------------------------- |
+| [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md)           | Reporte de bugs com contexto técnico         |
+| [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) | Sugestão de novas features                   |
+| [Pull Request](.github/PULL_REQUEST_TEMPLATE.md)             | Template para PRs com checklist de qualidade |
+
 ### Fluxo de Contribuição
 
-1. Fork o repositório
-2. Crie uma branch (`git checkout -b feat/minha-feature`)
-3. Commit suas mudanças (`git commit -m 'feat: minha nova feature'`)
-4. Push para a branch (`git push origin feat/minha-feature`)
-5. Abra um Pull Request
+1. **Fork** o repositório
+2. Crie uma branch a partir de `develop` (`git checkout -b feature/minha-feature develop`)
+3. Faça seus commits seguindo **Conventional Commits** (Husky validará)
+4. Push para sua branch (`git push origin feature/minha-feature`)
+5. Abra um **Pull Request** apontando para `develop`
+6. Aguarde revisão e aprovação
+
+> 📖 **Guia Completo:** Veja [CONTRIBUTING.md](CONTRIBUTING.md) para instruções detalhadas.
 
 ---
 
