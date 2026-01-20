@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google"; // Use built-in next/font
 import { ThemeProvider } from "@/components/theme-provider";
-import { Footer } from "@/components/footer";
+import { Footer } from "@/components/Footer";
 import { DotScreenShader } from "@/components/ui/dot-shader-background";
 import "./globals.css";
 
