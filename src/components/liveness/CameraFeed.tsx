@@ -122,6 +122,12 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
                          
                          const ctx = canvasRef.current.getContext("2d");
                          if (ctx) {
+                             // DEBUG: Log dimensions once per second
+                             if (Math.floor(startTimeMs / 1000) !== Math.floor(lastVideoTime / 1000)) {
+                                 console.log('[DEBUG] Video:', video.videoWidth, 'x', video.videoHeight);
+                                 console.log('[DEBUG] Canvas:', canvasRef.current.width, 'x', canvasRef.current.height);
+                             }
+
                              // Draw mirrored video frame 
                              ctx.save();
                              ctx.scale(-1, 1);
@@ -130,6 +136,16 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
 
                              try {
                                  const results = landmarker.detectForVideo(video, startTimeMs);
+                                 
+                                 // DEBUG: Log first landmark coordinates
+                                 if (results.faceLandmarks && results.faceLandmarks.length > 0) {
+                                     const nose = results.faceLandmarks[0][4]; // Nose tip
+                                     if (Math.floor(startTimeMs / 1000) !== Math.floor(lastVideoTime / 1000)) {
+                                         console.log('[DEBUG] Nose raw:', nose.x.toFixed(3), nose.y.toFixed(3));
+                                         console.log('[DEBUG] Nose mirrored:', (1 - nose.x).toFixed(3));
+                                     }
+                                 }
+                                 
                                  // Draw mirrored face mesh points
                                  drawFaceMesh(ctx, results, true);
                              } catch (err) {
