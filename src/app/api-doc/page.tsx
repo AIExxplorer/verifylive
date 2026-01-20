@@ -12,7 +12,7 @@ export default async function IndexPage() {
         description: 'API documentation for the VerifyLive Biometric Liveness System',
       },
     },
-  });
+  }) as Record<string, unknown>;
   return (
     <section className="container mx-auto p-4 bg-white dark:bg-zinc-900 min-h-screen">
       <ReactSwagger spec={spec} />

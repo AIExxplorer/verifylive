@@ -12,9 +12,10 @@ const getGenAI = () => {
 let genAIInstance: GoogleGenerativeAI | null = null;
 const genAI = new Proxy({} as GoogleGenerativeAI, {
   get: (_target, prop) => {
+    if (typeof prop === 'symbol') return undefined; // Handle symbol keys (e.g. iterators) safely
     if (!genAIInstance) genAIInstance = getGenAI();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (genAIInstance as unknown as Record<string, any>)[prop];
+    return (genAIInstance as unknown as Record<string, any>)[prop as string];
   },
 });
 
