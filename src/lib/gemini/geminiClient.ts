@@ -1,12 +1,21 @@
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
-const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+const getGenAI = () => {
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("Missing NEXT_PUBLIC_GEMINI_API_KEY environment variable. Please check your .env.local or Vercel settings.");
+  }
+  return new GoogleGenerativeAI(apiKey);
+};
 
-if (!apiKey) {
-  throw new Error("Missing NEXT_PUBLIC_GEMINI_API_KEY environment variable");
-}
-
-const genAI = new GoogleGenerativeAI(apiKey);
+// Lazy initialization to prevent build-time crashes if env var is missing during static analysis
+let genAIInstance: GoogleGenerativeAI | null = null;
+const genAI = new Proxy({} as GoogleGenerativeAI, {
+  get: (_target, prop) => {
+    if (!genAIInstance) genAIInstance = getGenAI();
+    return (genAIInstance as any)[prop];
+  },
+});
 
 export const geminiModel = genAI.getGenerativeModel({
   model: "gemini-2.0-flash-thinking-exp",
