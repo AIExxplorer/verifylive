@@ -162,22 +162,22 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
   }
 
   return (
-    <div className="relative w-full max-w-[640px] aspect-video bg-black rounded-lg overflow-hidden mx-auto">
+    <div className="relative w-full max-w-[640px] aspect-video bg-black rounded-lg overflow-hidden mx-auto transform scale-x-[-1]">
         {error && (
-            <div className="absolute inset-0 flex items-center justify-center text-red-500 bg-black/80 z-20 text-center p-4">
+            <div className="absolute inset-0 flex items-center justify-center text-red-500 bg-black/80 z-20 text-center p-4 transform scale-x-[-1]">
                 {error}
             </div>
         )}
       <video
         ref={videoRef}
-        className="absolute top-0 left-0 w-full h-full object-contain transform scale-x-[-1]" 
+        className="absolute top-0 left-0 w-full h-full object-contain" 
         playsInline
         muted
         autoPlay
       />
       <canvas
         ref={canvasRef}
-        className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none z-10 transform scale-x-[-1]"
+        className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none z-10"
       />
     </div>
   );
