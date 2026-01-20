@@ -187,18 +187,18 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
                 {error}
             </div>
         )}
-      {/* Hidden video - source for MediaPipe */}
+      {/* Hidden video - ONLY for MediaPipe processing */}
       <video
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-contain opacity-0 pointer-events-none"
+        className="hidden"
         playsInline
         muted
         autoPlay
       />
-      {/* Visible canvas - shows detection overlay */}
+      {/* Canvas renders EVERYTHING: video frame + face mesh points */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full object-contain"
+        className="w-full h-full"
       />
     </div>
   );
