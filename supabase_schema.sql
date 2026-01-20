@@ -1,5 +1,10 @@
-  -- Create a table for public profiles
-create table profiles (
+
+-- SCHEMA: VerifyLive (Namespace: verifylive_*)
+-- Renamed tables to avoid conflicts with existing project tables.
+
+-- 1. Profiles Table (verifylive_profiles)
+-- Stores user identity specific to this module
+create table if not exists verifylive_profiles (
   id uuid references auth.users not null primary key,
   updated_at timestamp with time zone,
   username text unique,
@@ -11,40 +16,67 @@ create table profiles (
   constraint username_length check (char_length(username) >= 3)
 );
 
--- Set up Row Level Security (RLS)
-alter table profiles enable row level security;
+-- RLS for Profiles
+alter table verifylive_profiles enable row level security;
 
-create policy "Public profiles are viewable by everyone."
-  on profiles for select
+create policy "Public view verifylive_profiles"
+  on verifylive_profiles for select
   using ( true );
 
-create policy "Users can insert their own profile."
-  on profiles for insert
+create policy "Users insert own verifylive_profile"
+  on verifylive_profiles for insert
   with check ( auth.uid() = id );
 
-create policy "Users can update own profile."
-  on profiles for update
+create policy "Users update own verifylive_profile"
+  on verifylive_profiles for update
   using ( auth.uid() = id );
 
--- Create a table for immutable audit logs (Liveness Checks)
-create table audit_logs (
+
+-- 2. Audit Logs (verifylive_audit_logs)
+-- Immutable logs for Liveness/Document checks
+create table if not exists verifylive_audit_logs (
   id uuid default gen_random_uuid() primary key,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  user_id uuid references auth.users(id), -- Nullable for anonymous checks
-  action text not null, -- 'LIVENESS_CHECK'
+  user_id uuid references auth.users(id), 
+  action text not null, -- 'LIVENESS_CHECK', 'DOC_UPLOAD'
   status text not null, -- 'VERIFIED', 'REJECTED'
   confidence numeric,
-  metadata jsonb, -- Stores anomalies, reasoning, ip_hash
-  ip_address text, -- Hashed for privacy
+  metadata jsonb,
+  ip_address text,
   user_agent text
 );
 
--- RLS: Audit logs are viewable by the user who created them, or admins
-alter table audit_logs enable row level security;
+-- RLS for Audit Logs
+alter table verifylive_audit_logs enable row level security;
 
-create policy "Users can view their own audit logs"
-  on audit_logs for select
+create policy "Users view own verifylive_audit_logs"
+  on verifylive_audit_logs for select
   using ( auth.uid() = user_id );
 
--- Only service role can insert audit logs (via Server Actions)
--- No insert policy for public/authenticated roles to prevent tampering
+-- (Service Role inserts do not need policy)
+
+
+-- 3. Storage Configuration
+-- Buckets: 'verifylive-docs', 'verifylive-proofs'
+insert into storage.buckets (id, name, public, avif_autodetection, file_size_limit, allowed_mime_types)
+values 
+  ('verifylive-docs', 'verifylive-docs', false, false, 5242880, array['image/jpeg', 'image/png', 'application/pdf']),
+  ('verifylive-proofs', 'verifylive-proofs', false, false, 5242880, array['image/jpeg'])
+on conflict (id) do update set 
+  file_size_limit = EXCLUDED.file_size_limit,
+  allowed_mime_types = EXCLUDED.allowed_mime_types;
+
+-- RLS for Storage
+-- Docs
+create policy "Users upload own verifylive-docs"
+  on storage.objects for insert
+  with check ( bucket_id = 'verifylive-docs' and auth.uid() = owner );
+
+create policy "Users view own verifylive-docs"
+  on storage.objects for select
+  using ( bucket_id = 'verifylive-docs' and auth.uid() = owner );
+
+-- Proofs
+create policy "Users upload own verifylive-proofs"
+  on storage.objects for insert
+  with check ( bucket_id = 'verifylive-proofs' and auth.uid() = owner );
