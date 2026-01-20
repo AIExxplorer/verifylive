@@ -117,15 +117,21 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
                              syncCanvas();
                          }
                          
-                         try {
-                             const results = landmarker.detectForVideo(video, startTimeMs);
-                             const ctx = canvasRef.current.getContext("2d");
-                             if (ctx) {
-                                 ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-                                 drawFaceMesh(ctx, results);
+                         const ctx = canvasRef.current.getContext("2d");
+                         if (ctx) {
+                             // Clear and draw the video frame (mirrored) onto the canvas
+                             ctx.save();
+                             ctx.scale(-1, 1); // Flip horizontally
+                             ctx.drawImage(video, -canvasRef.current.width, 0, canvasRef.current.width, canvasRef.current.height);
+                             ctx.restore();
+
+                             try {
+                                 const results = landmarker.detectForVideo(video, startTimeMs);
+                                 // Draw face mesh on top of the video frame (also mirrored)
+                                 drawFaceMesh(ctx, results, true); // Pass mirror flag
+                             } catch (err) {
+                                 console.warn("Frame processing skipped:", err);
                              }
-                         } catch (err) {
-                             console.warn("Frame processing skipped:", err);
                          }
                      }
                  }
@@ -162,15 +168,15 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
   }
 
   return (
-    <div className="relative w-full max-w-[640px] aspect-video bg-black rounded-lg overflow-hidden mx-auto transform scale-x-[-1]">
+    <div className="relative w-full max-w-[640px] aspect-video bg-black rounded-lg overflow-hidden mx-auto">
         {error && (
-            <div className="absolute inset-0 flex items-center justify-center text-red-500 bg-black/80 z-20 text-center p-4 transform scale-x-[-1]">
+            <div className="absolute inset-0 flex items-center justify-center text-red-500 bg-black/80 z-20 text-center p-4">
                 {error}
             </div>
         )}
       <video
         ref={videoRef}
-        className="absolute top-0 left-0 w-full h-full object-contain" 
+        className="absolute top-0 left-0 w-full h-full object-contain opacity-0" 
         playsInline
         muted
         autoPlay

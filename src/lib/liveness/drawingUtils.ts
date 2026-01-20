@@ -2,17 +2,18 @@ import { FaceLandmarkerResult } from "@mediapipe/tasks-vision";
 
 export const drawFaceMesh = (
   ctx: CanvasRenderingContext2D,
-  results: FaceLandmarkerResult
+  results: FaceLandmarkerResult,
+  mirror: boolean = false
 ) => {
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
   if (results.faceLandmarks) {
     for (const landmarks of results.faceLandmarks) {
       // Draw points
       ctx.fillStyle = "#FF0000";
       for (const point of landmarks) {
+        const x = mirror ? (1 - point.x) * ctx.canvas.width : point.x * ctx.canvas.width;
+        const y = point.y * ctx.canvas.height;
         ctx.beginPath();
-        ctx.arc(point.x * ctx.canvas.width, point.y * ctx.canvas.height, 1, 0, 2 * Math.PI);
+        ctx.arc(x, y, 2, 0, 2 * Math.PI);
         ctx.fill();
       }
     }
