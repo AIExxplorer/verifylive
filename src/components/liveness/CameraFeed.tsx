@@ -93,10 +93,10 @@ export const CameraFeed = forwardRef<CameraFeedRef>((props, ref) => {
                  const video = videoRef.current;
                  // standard check for video readiness
                  if (video.readyState >= 2 && video.videoWidth > 0 && !video.paused) {
-                     const startTimeMs = performance.now();
+                      const startTimeMs = performance.now();
                      
                      // Ensure monotonic timestamp increase to prevent WASM crash
-                     if (startTimeMs > lastVideoTime) {
+                     if (startTimeMs > lastVideoTime && startTimeMs - lastVideoTime > 33) {
                          lastVideoTime = startTimeMs;
                          
                          // Ensure canvas dimensions match video for correct mapping
