@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/dashboard"; // Default to dashboard if no next param
 
@@ -30,16 +30,17 @@ export async function GET(request: Request) {
         const targetPath = (profile && isVerified) ? next : "/compliance"; 
 
         // NOVA LÓGICA DE REDIRECIONAMENTO BLINDADA
-        // Priorizamos a variável de ambiente definida, caindo para a origem da requisição (seguro)
-        let siteUrl = process.env.NEXT_PUBLIC_APP_URL || origin;
-
-        // Protocol Check: Force https:// if missing (Vercel env vars usually lack protocol)
-        if (!siteUrl.startsWith("http")) {
-          siteUrl = `https://${siteUrl}`;
-        }
-
-        // Garantir que a URL termina sem barra para não duplicar na concatenação
-        siteUrl = siteUrl.replace(/\/$/, "");
+        // Usamos os headers da própria requisição para garantir que o redirecionamento
+        // seja para o MESMO domínio que está servindo esta função agora.
+        // Isso elimina problemas com Env Vars desatualizadas (NEXT_PUBLIC_APP_URL).
+        
+        const host = request.headers.get("x-forwarded-host") || request.headers.get("host");
+        const protocol = request.headers.get("x-forwarded-proto") || "https";
+        
+        // Removemos barras finais do host se existirem (raro, mas preventivo)
+        const cleanHost = host?.replace(/\/$/, "");
+        
+        const siteUrl = `${protocol}://${cleanHost}`;
 
         // Altere para garantir a barra
         return NextResponse.redirect(`${siteUrl}/${targetPath.replace(/^\//, "")}`);
@@ -47,6 +48,11 @@ export async function GET(request: Request) {
     }
   }
 
-  // return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+  // Fallback for error case - try to construct a valid URL or use a safe default
+  const host = request.headers.get("x-forwarded-host") || request.headers.get("host");
+  const protocol = request.headers.get("x-forwarded-proto") || "https";
+  const cleanHost = host?.replace(/\/$/, "");
+  const errorOrigin = cleanHost ? `${protocol}://${cleanHost}` : "https://verifylive.vercel.app";
+
+  return NextResponse.redirect(`${errorOrigin}/auth/auth-code-error`);
 }
