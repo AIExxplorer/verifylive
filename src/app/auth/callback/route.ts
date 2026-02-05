@@ -36,10 +36,8 @@ export async function GET(request: Request) {
         // Garantir que a URL termina sem barra para não duplicar na concatenação
         siteUrl = siteUrl.replace(/\/$/, "");
 
-        // Log para debug (aparecerá nos logs da Vercel para você conferir)
-        console.log('Redirecting to:', `${siteUrl}${targetPath}`);
-
-        return NextResponse.redirect(`${siteUrl}${targetPath}`);
+        // Altere para garantir a barra
+        return NextResponse.redirect(`${siteUrl}/${targetPath.replace(/^\//, "")}`);
       }
     }
   }
