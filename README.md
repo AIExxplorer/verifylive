@@ -1,6 +1,6 @@
 # VerifyLive 🛡️
 
-![CI Status](https://github.com/AIExxplorer/verifylive/actions/workflows/ci-quality.yml/badge.svg)
+![Quality Shield](https://img.shields.io/github/actions/workflow/status/AIExxplorer/verifylive/ci-quality.yml?label=Quality%20Shield&style=flat-square&logo=github)
 [![Deploy Status](https://img.shields.io/badge/deploy-vercel-success)](https://verifylive.vercel.app)
 [![Hackathon](https://img.shields.io/badge/GEMINI%203-HACKATHON-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/competition)
 
