@@ -30,11 +30,8 @@ export async function GET(request: Request) {
         const targetPath = (profile && isVerified) ? next : "/compliance"; 
 
         // NOVA LÓGICA DE REDIRECIONAMENTO BLINDADA
-        // Priorizamos a variável de ambiente que VOCÊ controla na Vercel, depois VERCEL_URL, depois origin
-        let siteUrl = 
-          process.env.NEXT_PUBLIC_APP_URL || 
-          process.env.NEXT_PUBLIC_VERCEL_URL || 
-          origin;
+        // Priorizamos a variável de ambiente definida, caindo para a origem da requisição (seguro)
+        let siteUrl = process.env.NEXT_PUBLIC_APP_URL || origin;
 
         // Protocol Check: Force https:// if missing (Vercel env vars usually lack protocol)
         if (!siteUrl.startsWith("http")) {
