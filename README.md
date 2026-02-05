@@ -9,6 +9,10 @@
 > _Full Compliance with LGPD, Lei Felca & International Biometric Standards._
 
 <div align="center">
+  <img src="https://d112y698adiu2z.cloudfront.net/photos/production/challenge_photos/004/098/039/datas/full_width.png" alt="Gemini 3 Hackathon Banner" width="100%" />
+</div>
+
+<div align="center">
 
 ```text
    █████╗ ██╗███████╗██╗  ██╗██╗  ██╗
