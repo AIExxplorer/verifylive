@@ -29,18 +29,17 @@ export async function GET(request: Request) {
         // Only if strictly verified -> Go to next (dashboard).
         const targetPath = (profile && isVerified) ? next : "/compliance"; 
 
-        // Determine redirect origin using same logic as getURL for consistency if needed, 
-        // or rely on request origin if valid.
-        const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
-        const isLocalEnv = process.env.NODE_ENV === "development";
-        
-        if (isLocalEnv) {
-          return NextResponse.redirect(`${origin}${targetPath}`);
-        } else if (forwardedHost) {
-          return NextResponse.redirect(`https://${forwardedHost}${targetPath}`);
-        } else {
-          return NextResponse.redirect(`${origin}${targetPath}`);
-        }
+        // NOVA LÓGICA DE REDIRECIONAMENTO BLINDADA
+        // Priorizamos a variável de ambiente que VOCÊ controla na Vercel
+        let siteUrl = process.env.NEXT_PUBLIC_APP_URL || origin;
+
+        // Garantir que a URL termina sem barra para não duplicar na concatenação
+        siteUrl = siteUrl.replace(/\/$/, "");
+
+        // Log para debug (aparecerá nos logs da Vercel para você conferir)
+        console.log('Redirecting to:', `${siteUrl}${targetPath}`);
+
+        return NextResponse.redirect(`${siteUrl}${targetPath}`);
       }
     }
   }
