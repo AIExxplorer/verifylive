@@ -4,7 +4,7 @@
 [![Deploy Status](https://img.shields.io/badge/deploy-vercel-success)](https://verifylive.vercel.app)
 [![Hackathon](https://img.shields.io/badge/GEMINI%203-HACKATHON-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/competition)
 
-> **🏆 Competidor Oficial do HACKATHON DO GEMINI 3**  
+> **🏆 Official Entrant of GEMINI 3 HACKATHON**  
 > _Biometric Liveness Detection & Anti-Deepfake System powered by Gemini 3 Multimodal._  
 > _Full Compliance with LGPD, Lei Felca & International Biometric Standards._
 
@@ -19,95 +19,97 @@
    ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
 ```
 
-**Desenvolvido por [AIExxplorer](https://github.com/AIExxplorer) | [Artificial Universe](https://artificialuniverse.tech)**
+**Developed by [AIExxplorer](https://github.com/AIExxplorer) | [Artificial Universe](https://artificialuniverse.tech)**
+
+**[🇧🇷 Leia em Português](./README_PT.md)**
 
 </div>
 
 ---
 
-## 📋 Índice
+## 📋 Table of Contents
 
-- [🎯 Visão Geral](#-visão-geral)
-- [✨ Principais Funcionalidades](#-principais-funcionalidades)
-- [🏗️ Arquitetura Técnica](#️-arquitetura-técnica)
-- [🔒 Segurança & Compliance](#-segurança--compliance)
-- [🚀 Instalação & Configuração](#-instalação--configuração)
-- [📱 Fluxo do Usuário](#-fluxo-do-usuário)
-- [🧠 Integração com Gemini 3](#-integração-com-gemini-3)
-- [📊 Banco de Dados](#-banco-de-dados)
+- [🎯 Overview](#-overview)
+- [✨ Key Features](#-key-features)
+- [🏗️ Technical Architecture](#️-technical-architecture)
+- [🔒 Security & Compliance](#-security--compliance)
+- [🚀 Installation & Configuration](#-installation--configuration)
+- [📱 User Flow](#-user-flow)
+- [🧠 Gemini 3 Integration](#-gemini-3-integration)
+- [📊 Database](#-database)
 - [🎥 Demo & Links](#-demo--links)
-- [🤝 Contribuindo](#-contribuindo)
-- [📝 Licença](#-licença)
+- [🤝 Contributing](#-contributing)
+- [📝 License](#-license)
 
 ---
 
-## 🎯 Visão Geral
+## 🎯 Overview
 
-**VerifyLive** é um sistema de verificação biométrica de nível forense, desenvolvido para o **Gemini 3 Hackathon**. Utiliza as capacidades da **Era da Ação (Action Era)** do **Gemini 3 Multimodal API** para realizar raciocínio semântico profundo em streams de vídeo, detectando deepfakes e garantindo prova de vida (liveness) em tempo real.
+**VerifyLive** is a forensic-grade biometric verification system developed for the **Gemini 3 Hackathon**. It leverages the **Action Era** capabilities of the **Gemini 3 Multimodal API** to perform deep semantic reasoning on video streams, detecting deepfakes and ensuring real-time liveness.
 
-### 🎯 Objetivos do Projeto
+### 🎯 Project Objectives
 
-| Objetivo                      | Descrição                                                                      |
-| ----------------------------- | ------------------------------------------------------------------------------ |
-| **Verificação de Identidade** | Confirmar que o usuário é uma pessoa real, não uma foto, vídeo ou deepfake     |
-| **Detecção Anti-Deepfake**    | Utilizar IA forense para identificar manipulações sintéticas em vídeo          |
-| **Compliance Regulatório**    | Atender às exigências da LGPD, Lei Felca e padrões internacionais de biometria |
-| **Auditoria Imutável**        | Manter logs criptografados e rastreáveis de todas as verificações              |
-| **Experiência Premium**       | Interface intuitiva, responsiva e acessível para todos os dispositivos         |
+| Objective                   | Description                                                            |
+| :-------------------------- | :--------------------------------------------------------------------- |
+| **Identity Verification**   | Confirm the user is a real person, not a photo, video, or deepfake     |
+| **Anti-Deepfake Detection** | Use forensic AI to identify synthetic manipulations in real-time video |
+| **Regulatory Compliance**   | Meet LGPD, Lei Felca, and international biometric standards            |
+| **Immutable Audit**         | Maintain encrypted and traceable logs of all verifications             |
+| **Premium Experience**      | Intuitive, responsive, and accessible interface for all devices        |
 
-### 🏆 Alinhamento com o Tema do Hackathon
+### 🏆 Alignment with Hackathon Theme
 
-Este projeto se alinha com os temas **Action Era** e **Omni-Agent** através de:
+This project aligns with the **Action Era** and **Omni-Agent** themes through:
 
-- **Multimodalidade Nativa**: Processamento direto de streams de vídeo/áudio através do Gemini 3
-- **Thought Signatures**: Raciocínio forense explicável para cada decisão de liveness
-- **Sinergia Humano-IA**: Empoderamento de auditores de compliance com relatórios forenses gerados por IA
-
----
-
-## ✨ Principais Funcionalidades
-
-### 🔐 Autenticação Segura
-
-- **Google OAuth 2.0** integrado via Supabase Auth
-- Sessões seguras com tokens de refresh automático
-- Proteção de rotas server-side
-
-### 📄 Verificação de Documentos
-
-- **Upload de PDF** (CNH Digital, Identidade Gov.br)
-- **Captura via Câmera** (Frente e Verso)
-- Suporte a RG, CNH e Passaporte
-- Validação de tipo MIME e tamanho máximo (5MB)
-
-### 🎥 Liveness Detection (Prova de Vida)
-
-- **5 Desafios de Verificação**:
-  1. 😐 **Rosto Neutro** - Posição inicial
-  2. 👉 **Virar à Direita** - Verificação 3D
-  3. 😊 **Sorrir** - Verificação muscular/expressão
-  4. 🔍 **Aproximar** - Verificação de profundidade
-  5. 🤚 **Prova de Posse** - Mão visível (anti-deepfake)
-
-### 🧠 Análise Forense com Gemini 3
-
-- Raciocínio multimodal sobre 5 frames capturados
-- Detecção de artefatos de deepfake (moiré, blur, distorções)
-- Score de confiança (0-100%) com explicação
-- Relatório forense exportável
-
-### 📊 Dashboard de Status
-
-- **Badge "Unverified"** para contas pendentes
-- **Dashboard "Verified"** após conclusão bem-sucedida
-- Histórico de verificações com timestamps
-- Prevenção de re-verificação (anti-loop)
+- **Native Multimodality**: Direct processing of video/audio streams via Gemini 3
+- **Thought Signatures**: Explainable forensic reasoning for every liveness decision
+- **Human-AI Synergy**: Empowering compliance auditors with AI-generated forensic reports
 
 ---
 
-## 🏗️ Arquitetura Técnica
+## ✨ Key Features
 
-### Stack Tecnológico Completo
+### 🔐 Secure Authentication
+
+- **Google OAuth 2.0** integrated via Supabase Auth
+- Secure sessions with auto-refresh tokens
+- Server-side route protection
+
+### 📄 Document Verification
+
+- **PDF Upload** (Digital Driver's License, Gov.br ID)
+- **Camera Capture** (Front & Back)
+- Support for ID cards, Driver's Licenses, and Passports
+- MIME type validation and max size checks (5MB)
+
+### 🎥 Liveness Detection
+
+- **5 Verification Challenges**:
+  1. 😐 **Neutral Face** - Baseline position
+  2. 👉 **Turn Right** - 3D structure check
+  3. 😊 **Smile** - Muscle/expression check
+  4. 🔍 **Zoom In** - Depth check
+  5. 🤚 **Hand Check** - Possession/Occlusion check (anti-deepfake)
+
+### 🧠 Forensic Analysis with Gemini 3
+
+- Multimodal reasoning on 5 captured frames
+- Detection of deepfake artifacts (moiré patterns, blurring, distortions)
+- Confidence score (0-100%) with explanation
+- Exportable forensic report
+
+### 📊 Status Dashboard
+
+- **"Unverified" Badge** for pending accounts
+- **"Verified" Dashboard** upon successful completion
+- Verification history with timestamps
+- Re-verification prevention (anti-loop)
+
+---
+
+## 🏗️ Technical Architecture
+
+### Complete Tech Stack
 
 ```mermaid
 graph TD
@@ -129,19 +131,15 @@ graph TD
         DB -->|Audit| AuditTable[verifylive_audit_logs]
         Storage -->|Docs| DocsBucket[verifylive-docs]
     end
-
-    UI --> Verify
-    UI --> Upload
-    Verify -->|JSON Analysis| UI
 ```
 
-### 🌍 Internacionalização (i18n)
+### 🌍 Internationalization (i18n)
 
-- **Suporte Multilíngue**: Português (PT), Inglês (EN) e Espanhol (ES).
-- **Detecção Automática**: Preferência do navegador ou seleção manual.
-- **Switcher Flutuante**: Interface minimalista com Glassmorphism.
+- **Multilingual Support**: Portuguese (PT), English (EN), and Spanish (ES).
+- **Auto-Detection**: Browser preference or manual selection.
+- **Floating Switcher**: Minimalist interface with Glassmorphism.
 
-### Badges Tecnológicos
+### Tech Badges
 
 ![Next.js](https://img.shields.io/badge/Next.js-16+-000000?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6?style=flat-square&logo=typescript&logoColor=white)
@@ -154,101 +152,101 @@ graph TD
 
 ---
 
-## 🔒 Segurança & Compliance
+## 🔒 Security & Compliance
 
-### 🇧🇷 Lei Geral de Proteção de Dados (LGPD)
+### 🇧🇷 LGPD (General Data Protection Law)
 
-| Requisito                   | Implementação                                              |
-| --------------------------- | ---------------------------------------------------------- |
-| **Consentimento Explícito** | Modal de termos obrigatório antes da verificação           |
-| **Finalidade Específica**   | Dados usados exclusivamente para verificação de identidade |
-| **Minimização de Dados**    | Apenas dados estritamente necessários são coletados        |
-| **Transparência**           | Links diretos para legislação oficial (Planalto.gov)       |
-| **Direito de Acesso**       | Histórico de auditoria disponível para o usuário           |
-| **Segurança**               | Criptografia AES-256 em repouso, TLS 1.3 em trânsito       |
-| **Auto-TTL**                | Exclusão automática de dados brutos após 24h               |
+| Requirement           | Implementation                                      |
+| :-------------------- | :-------------------------------------------------- |
+| **Explicit Consent**  | Mandatory terms modal before verification           |
+| **Specific Purpose**  | Data used exclusively for identity verification     |
+| **Data Minimization** | Only strictly necessary data is collected           |
+| **Transparency**      | Direct links to official legislation (Planalto.gov) |
+| **Right of Access**   | Audit history available to the user                 |
+| **Security**          | AES-256 encryption at rest, TLS 1.3 in transit      |
+| **Auto-TTL**          | Automatic deletion of raw data after 24h            |
 
-### 👶 Lei Felca / ECA (Proteção de Menores)
+### 👶 Lei Felca / ECA (Child Protection)
 
-| Medida                      | Descrição                                                        |
-| --------------------------- | ---------------------------------------------------------------- |
-| **Detecção de Idade**       | Flags automáticos para usuários aparentemente menores de 16 anos |
-| **Consenso do Responsável** | Fluxo bloqueado para menores sem token de guardião               |
-| **Auditoria Criptográfica** | Todas as decisões de idade são assinadas e logadas               |
+| Measure                 | Description                                     |
+| :---------------------- | :---------------------------------------------- |
+| **Age Detection**       | Automatic flags for users apparently under 16   |
+| **Guardian Consensus**  | Flow blocked for minors without guardian tokens |
+| **Cryptographic Audit** | All age decisions are signed and logged         |
 
-### 🔐 Medidas de Segurança Técnicas
+### 🔐 Technical Security Measures
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│                   CAMADAS DE SEGURANÇA                     │
+│                   SECURITY LAYERS                          │
 ├────────────────────────────────────────────────────────────┤
 │                                                            │
-│  1. AUTENTICAÇÃO                                           │
+│  1. AUTHENTICATION                                         │
 │     ├── Google OAuth 2.0 (PKCE Flow)                      │
-│     ├── Tokens JWT com refresh automático                 │
-│     └── Session cookies HTTPOnly + Secure                 │
+│     ├── JWT Tokens with auto-refresh                      │
+│     └── HTTPOnly + Secure Session Cookies                 │
 │                                                            │
-│  2. AUTORIZAÇÃO                                            │
-│     ├── Row Level Security (RLS) no Supabase              │
-│     ├── Políticas por usuário (auth.uid())                │
-│     └── Service Role Key isolada no servidor              │
+│  2. AUTHORIZATION                                          │
+│     ├── Row Level Security (RLS) in Supabase              │
+│     ├── Per-user policies (auth.uid())                    │
+│     └── Isolated Service Role Key on server               │
 │                                                            │
-│  3. CRIPTOGRAFIA                                           │
-│     ├── Em trânsito: TLS 1.3                              │
-│     ├── Em repouso: AES-256 (Supabase Storage)            │
-│     └── Hashing: bcrypt para dados sensíveis             │
+│  3. ENCRYPTION                                             │
+│     ├── In Transit: TLS 1.3                               │
+│     ├── At Rest: AES-256 (Supabase Storage)               │
+│     └── Hashing: bcrypt for sensitive data                │
 │                                                            │
-│  4. VALIDAÇÃO                                              │
-│     ├── Validação de MIME type (image/jpeg, pdf)          │
-│     ├── Limite de tamanho (5MB por arquivo)               │
-│     └── Sanitização de inputs                             │
+│  4. VALIDATION                                             │
+│     ├── MIME type validation (image/jpeg, pdf)            │
+│     ├── Size limit (5MB per file)                         │
+│     └── Input sanitization                                │
 │                                                            │
-│  5. AUDITORIA                                              │
-│     ├── Logs imutáveis em verifylive_audit_logs           │
-│     ├── Registro de IP e User-Agent                       │
-│     └── Timestamps com timezone UTC                       │
+│  5. AUDIT                                                  │
+│     ├── Immutable logs in verifylive_audit_logs           │
+│     ├── IP and User-Agent logging                         │
+│     └── Timestamps with UTC timezone                      │
 │                                                            │
-│  6. PROTEÇÃO ANTI-FRAUDE                                   │
-│     ├── Detecção de Deepfake via Gemini 3                 │
-│     ├── 5 desafios de liveness (movimento 3D)             │
-│     └── Verificação de consistência facial                │
+│  6. ANTI-FRAUD PROTECTION                                  │
+│     ├── Deepfake Detection via Gemini 3                   │
+│     ├── 5 liveness challenges (3D movement)               │
+│     └── Facial consistency verification                   │
 │                                                            │
 └────────────────────────────────────────────────────────────┘
 ```
 
-### 📜 Referências Legais Implementadas
+### 📜 Legal References Implemented
 
 - [Lei 13.709/2018 - LGPD](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/L13709.htm)
-- [Lei 14.063/2020 - Assinatura Eletrônica](https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2020/lei/L14063.htm)
-- [Lei 8.069/1990 - ECA (Estatuto da Criança e do Adolescente)](https://www.planalto.gov.br/ccivil_03/leis/l8069.htm)
+- [Lei 14.063/2020 - Electronic Signature](https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2020/lei/L14063.htm)
+- [Lei 8.069/1990 - ECA (Statute of the Child and Adolescent)](https://www.planalto.gov.br/ccivil_03/leis/l8069.htm)
 
 ---
 
-## 🚀 Instalação & Configuração
+## 🚀 Installation & Configuration
 
-### Pré-requisitos
+### Prerequisites
 
 - Node.js 20+
-- npm 10+ ou pnpm
-- Projeto no Supabase (PostgreSQL + Auth + Storage)
-- Chave de API do Google AI (Gemini)
+- npm 10+ or pnpm
+- Supabase Project (PostgreSQL + Auth + Storage)
+- Google AI API Key (Gemini)
 
-### 1. Clonar o Repositório
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/AIExxplorer/verifylive.git
 cd verifylive
 ```
 
-### 2. Instalar Dependências
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Configurar Variáveis de Ambiente
+### 3. Configure Environment Variables
 
-Crie um arquivo `.env.local` na raiz do projeto:
+Create a `.env.local` file in the project root:
 
 ```env
 # Supabase
@@ -263,31 +261,31 @@ GEMINI_API_KEY=your-gemini-api-key
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-### 4. Configurar Supabase
+### 4. Configure Supabase
 
-Execute o schema SQL no Supabase SQL Editor:
+Run the SQL schema in the Supabase SQL Editor:
 
 ```sql
--- Veja o arquivo supabase_schema.sql completo no repositório
+-- See the full supabase_schema.sql file in the repository
 ```
 
-Configure o **Google OAuth Provider** em:
+Configure the **Google OAuth Provider** at:
 `Authentication > Providers > Google`
 
-Crie os buckets de storage:
+Create the storage buckets:
 
-- `verifylive-docs` (Privado)
-- `verifylive-proofs` (Privado)
+- `verifylive-docs` (Private)
+- `verifylive-proofs` (Private)
 
-### 5. Executar em Desenvolvimento
+### 5. Run in Development
 
 ```bash
 npm run dev
 ```
 
-Acesse: [http://localhost:3000](http://localhost:3000)
+Access: [http://localhost:3000](http://localhost:3000)
 
-### 6. Build de Produção
+### 6. Production Build
 
 ```bash
 npm run build
@@ -296,63 +294,63 @@ npm start
 
 ---
 
-## 📱 Fluxo do Usuário
+## 📱 User Flow
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                      JORNADA DO USUÁRIO                         │
+│                        USER JOURNEY                             │
 └─────────────────────────────────────────────────────────────────┘
 
     ┌──────────────┐
-    │   ACESSO     │
-    │  (Página)    │
+    │    ACCESS    │
+    │    (Page)    │
     └──────┬───────┘
            │
            ▼
-    ┌──────────────┐      NÃO       ┌──────────────┐
-    │  Logado?     │ ────────────▶  │   LOGIN      │
-    │              │                │  (Google)    │
+    ┌──────────────┐      NO        ┌──────────────┐
+    │  Logged In?  │ ────────────▶  │    LOGIN     │
+    │              │                │   (Google)   │
     └──────┬───────┘                └──────┬───────┘
-           │ SIM                           │
+           │ YES                           │
            ▼                               │
     ┌──────────────┐                       │
-    │  Verificado? │ ◀─────────────────────┘
+    │  Verified?   │ ◀─────────────────────┘
     │              │
     └──────┬───────┘
            │
-     SIM   │   NÃO
+     YES   │   NO
            │
     ┌──────┴───────┐          ┌──────────────┐
     │  DASHBOARD   │          │  COMPLIANCE  │
-    │  VERIFICADO  │          │   (Modal)    │
-    │  ✅ Selo     │          └──────┬───────┘
+    │  VERIFIED    │          │   (Modal)    │
+    │  ✅ Badge    │          └──────┬───────┘
     └──────────────┘                 │
                                      ▼
                               ┌──────────────┐
-                              │  DOCUMENTOS  │
-                              │  (Seleção)   │
+                              │  DOCUMENTS   │
+                              │  (Selection) │
                               └──────┬───────┘
                                      │
                          ┌───────────┴───────────┐
                          │                       │
                     ┌────▼────┐            ┌────▼────┐
-                    │ CÂMERA  │            │  PDF    │
-                    │ (F + V) │            │ Upload  │
+                    │ CAMERA  │            │   PDF   │
+                    │ (F + B) │            │ Upload  │
                     └────┬────┘            └────┬────┘
                          │                      │
                          └───────────┬──────────┘
                                      │
                                      ▼
                               ┌──────────────┐
-                              │  LIVENESS    │
-                              │  INTRO       │
+                              │   LIVENESS   │
+                              │    INTRO     │
                               └──────┬───────┘
                                      │
                                      ▼
                               ┌──────────────┐
                               │   5 STEPS    │
-                              │  LIVENESS    │
-                              │  (Câmera)    │
+                              │   LIVENESS   │
+                              │   (Camera)   │
                               └──────┬───────┘
                                      │
                                      ▼
@@ -363,16 +361,16 @@ npm start
                                      │
                                      ▼
                               ┌──────────────┐
-                              │   RESULT     │
+                              │    RESULT    │
                               │   ✅ / ❌    │
                               └──────────────┘
 ```
 
 ---
 
-## 🧠 Integração com Gemini 3
+## 🧠 Gemini 3 Integration
 
-### Prompt Forense Utilizado
+### Forensic Prompt Used
 
 ```typescript
 const prompt = `
@@ -398,7 +396,7 @@ Return JSON with:
 `;
 ```
 
-### Resposta Esperada
+### Expected Response
 
 ```json
 {
@@ -411,12 +409,12 @@ Return JSON with:
 
 ---
 
-## 📊 Banco de Dados
+## 📊 Database
 
-### Schema Principal
+### Main Schema
 
 ```sql
--- Perfis de Verificação
+-- Verification Profiles
 CREATE TABLE verifylive_profiles (
   id UUID REFERENCES auth.users PRIMARY KEY,
   updated_at TIMESTAMPTZ,
@@ -427,7 +425,7 @@ CREATE TABLE verifylive_profiles (
   verified_at TIMESTAMPTZ
 );
 
--- Logs de Auditoria (Imutáveis)
+-- Audit Logs (Immutable)
 CREATE TABLE verifylive_audit_logs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -441,53 +439,53 @@ CREATE TABLE verifylive_audit_logs (
 );
 ```
 
-### Políticas RLS
+### RLS Policies
 
-- Usuários podem ver/editar apenas seus próprios perfis
-- Logs de auditoria são inseridos via Service Role (imutáveis para o usuário)
-- Storage protegido por políticas de owner
+- Users can only view/edit their own profiles
+- Audit logs are inserted via Service Role (immutable for the user)
+- Storage protected by owner policies
 
 ---
 
 ## 🎥 Demo & Links
 
-| Recurso                    | Link                                                       |
-| -------------------------- | ---------------------------------------------------------- |
+| Resource                   | Link                                                       |
+| :------------------------- | :--------------------------------------------------------- |
 | 🌐 **Live Demo**           | [verifylive.vercel.app](https://verifylive.vercel.app)     |
-| 📹 **Vídeo Demo**          | [YouTube](https://youtube.com) _(Em breve)_                |
-| 🏆 **Devpost**             | [Link para Submissão](https://devpost.com)                 |
-| 📂 **Repositório**         | [GitHub](https://github.com/AIExxplorer/verifylive)        |
+| 📹 **Demo Video**          | [YouTube](https://youtube.com) _(Coming Soon)_             |
+| 🏆 **Devpost**             | [Submission Link](https://devpost.com)                     |
+| 📂 **Repository**          | [GitHub](https://github.com/AIExxplorer/verifylive)        |
 | 🔗 **Artificial Universe** | [artificialuniverse.tech](https://artificialuniverse.tech) |
 
 ---
 
-## 🤝 Contribuindo
+## 🤝 Contributing
 
-Este projeto utiliza **Husky** para git hooks e **Commitlint** para commits convencionais.
+This project uses **Husky** for git hooks and **Commitlint** for conventional commits.
 
-### Padrão de Commits
+### Commit Standards
 
 ```bash
-feat: nova funcionalidade
-fix: correção de bug
-docs: atualização de documentação
-style: formatação (sem mudança de lógica)
-refactor: refatoração de código
-test: adição de testes
-chore: tarefas de manutenção
+feat: new feature
+fix: bug fix
+docs: documentation update
+style: formatting (no logic change)
+refactor: code refactoring
+test: adding tests
+chore: maintenance tasks
 ```
 
-### 🌳 Estrutura de Branches (GitFlow)
+### 🌳 Branch Structure (GitFlow)
 
-Este projeto segue um fluxo de trabalho **GitFlow Simplificado**:
+This project follows a **Simplified GitFlow** workflow:
 
 ```
                     ┌──────────────┐
-                    │     main     │  ← Produção (Estável)
+                    │     main     │  ← Production (Stable)
                     └──────┬───────┘
                            │
                     ┌──────▼───────┐
-                    │   develop    │  ← Integração (Default Dev)
+                    │   develop    │  ← Integration (Default Dev)
                     └──────┬───────┘
                            │
           ┌────────────────┼────────────────┐
@@ -497,42 +495,42 @@ Este projeto segue um fluxo de trabalho **GitFlow Simplificado**:
    └─────────────┘  └─────────────┘  └─────────────┘
 ```
 
-| Branch      | Propósito                                    |
-| ----------- | -------------------------------------------- |
-| `main`      | Código em produção, releases estáveis        |
-| `develop`   | Branch de integração, recebe PRs de features |
-| `test/qa`   | Homologação e testes de QA                   |
-| `feature/*` | Novas funcionalidades                        |
-| `hotfix/*`  | Correções urgentes em produção               |
+| Branch      | Purpose                                  |
+| :---------- | :--------------------------------------- |
+| `main`      | Production code, stable releases         |
+| `develop`   | Integration branch, receives feature PRs |
+| `test/qa`   | Staging and QA testing                   |
+| `feature/*` | New features                             |
+| `hotfix/*`  | Urgent production fixes                  |
 
-### 📋 Templates de Comunidade
+### 📋 Community Templates
 
-Este repositório inclui templates padronizados para facilitar contribuições:
+This repository includes standardized templates to facilitate contributions:
 
-| Template                                                     | Descrição                                    |
-| ------------------------------------------------------------ | -------------------------------------------- |
-| [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md)           | Reporte de bugs com contexto técnico         |
-| [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) | Sugestão de novas features                   |
-| [Pull Request](.github/PULL_REQUEST_TEMPLATE.md)             | Template para PRs com checklist de qualidade |
+| Template                                                     | Description                             |
+| :----------------------------------------------------------- | :-------------------------------------- |
+| [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md)           | Bug reporting with technical context    |
+| [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) | Suggestion for new features             |
+| [Pull Request](.github/PULL_REQUEST_TEMPLATE.md)             | Template for PRs with quality checklist |
 
-### Fluxo de Contribuição
+### Contribution Flow
 
-1. **Fork** o repositório
-2. Crie uma branch a partir de `develop` (`git checkout -b feature/minha-feature develop`)
-3. Faça seus commits seguindo **Conventional Commits** (Husky validará)
-4. Push para sua branch (`git push origin feature/minha-feature`)
-5. Abra um **Pull Request** apontando para `develop`
-6. Aguarde revisão e aprovação
+1. **Fork** the repository
+2. Create a branch from `develop` (`git checkout -b feature/my-feature develop`)
+3. Make your commits following **Conventional Commits** (Husky will validate)
+4. Push to your branch (`git push origin feature/my-feature`)
+5. Open a **Pull Request** pointing to `develop`
+6. Wait for review and approval
 
-> 📖 **Guia Completo:** Veja [CONTRIBUTING.md](CONTRIBUTING.md) para instruções detalhadas.
+> 📖 **Full Guide:** See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 
 ---
 
-## 📝 Licença
+## 📝 License
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
 
-```
+```text
 MIT License
 
 Copyright (c) 2026 AIExxplorer / Artificial Universe
@@ -563,6 +561,6 @@ _Biometric Identity Verification for the AI Era_
    ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
 ```
 
-**[⬆ Voltar ao Topo](#verifylive-️)**
+**[⬆ Back to Top](#verifylive-️)**
 
 </div>
