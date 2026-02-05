@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Camera, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Camera, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface DocumentCameraProps {
   usage: "FRONT" | "BACK"; // Which side are we capturing?
@@ -15,6 +16,7 @@ export function DocumentCamera({ usage, onCapture, onBack }: DocumentCameraProps
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const { t } = useLanguage();
 
   // Initialize Camera (High Res for Text)
   useEffect(() => {
@@ -43,7 +45,7 @@ export function DocumentCamera({ usage, onCapture, onBack }: DocumentCameraProps
         }
       } catch (err) {
         console.error("Camera access denied:", err);
-        toast.error("Erro ao acessar câmera. Verifique permissões.");
+        toast.error(`${t.common.error} - Camera Access`);
       }
     }
 
@@ -80,24 +82,24 @@ export function DocumentCamera({ usage, onCapture, onBack }: DocumentCameraProps
          // Stop stream to save battery/resources
          stream?.getTracks().forEach(t => t.stop());
       } else {
-         toast.error("Falha ao capturar imagem.");
+         toast.error(t.common.error);
       }
     }, "image/jpeg", 0.95); // High quality JPEG
 
-  }, [onCapture, stream]);
+  }, [onCapture, stream, t.common.error]);
 
   return (
     <div className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
       {/* Header overlay */}
       <div className="absolute top-0 w-full p-4 bg-gradient-to-b from-black/80 to-transparent z-10 flex justify-between items-center text-white">
         <button onClick={onBack} className="text-sm font-medium opacity-80 hover:opacity-100">
-           Voltar
+           {t.upload.back_button}
         </button>
         <div className="text-center">
            <h3 className="font-bold text-lg">
-             {usage === "FRONT" ? "Frente do Documento" : "Verso do Documento"}
+             {usage === "FRONT" ? t.upload.front_side : t.upload.back_side}
            </h3>
-           <p className="text-xs opacity-70">Posicione o documento na moldura</p>
+           <p className="text-xs opacity-70">{t.upload.position_doc}</p>
         </div>
         <div className="w-10"></div> {/* Spacer */}
       </div>
@@ -124,7 +126,7 @@ export function DocumentCamera({ usage, onCapture, onBack }: DocumentCameraProps
          {!isReady && (
             <div className="absolute text-white/50 flex flex-col items-center animate-pulse">
                <RefreshCw className="animate-spin mb-2" />
-               <span className="text-xs">Iniciando câmera...</span>
+               <span className="text-xs">{t.upload.starting_camera}</span>
             </div>
          )}
       </div>

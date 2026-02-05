@@ -2,11 +2,13 @@
 
 import { CheckCircle2, ShieldCheck, User as UserIcon } from "lucide-react";
 import { User } from "@supabase/supabase-js";
+import { useLanguage } from "@/contexts/LanguageContext";
+import Image from "next/image";
 
 interface Profile {
   full_name?: string | null;
   verified_at?: string | null;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface VerifiedDashboardProps {
@@ -15,6 +17,8 @@ interface VerifiedDashboardProps {
 }
 
 export function VerifiedDashboard({ user, profile }: VerifiedDashboardProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] p-4 animate-in fade-in slide-in-from-bottom-8">
       
@@ -30,16 +34,23 @@ export function VerifiedDashboard({ user, profile }: VerifiedDashboardProps) {
             </div>
 
             <div className="space-y-2">
-               <h1 className="text-2xl font-bold tracking-tight">Identidade Verificada</h1>
+               <h1 className="text-2xl font-bold tracking-tight">{t.dashboard.verified_title}</h1>
                <p className="text-muted-foreground text-sm">
-                 Sua verificação biométrica está ativa e válida. Não é necessário realizar o procedimento novamente.
+                 {t.dashboard.verified_message}
                </p>
             </div>
 
             <div className="w-full bg-muted/50 rounded-xl p-4 space-y-3">
                <div className="flex items-center gap-3">
                   {user.user_metadata?.avatar_url ? (
-                     <img src={user.user_metadata.avatar_url} className="w-10 h-10 rounded-full border border-gray-200" alt="Avatar"/>
+
+                     <Image 
+                        src={user.user_metadata.avatar_url} 
+                        width={40} 
+                        height={40} 
+                        className="rounded-full border border-gray-200 object-cover" 
+                        alt="Avatar"
+                     />
                   ) : (
                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
                         <UserIcon className="w-5 h-5 text-gray-500"/>
@@ -57,18 +68,18 @@ export function VerifiedDashboard({ user, profile }: VerifiedDashboardProps) {
                <div className="h-px bg-border"></div>
                
                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">Verificado em:</span>
+                  <span className="text-muted-foreground">{t.dashboard.verified_at}</span>
                   <span className="font-mono font-medium">
                      {profile?.verified_at 
                         ? new Date(profile.verified_at).toLocaleDateString() 
-                        : "Recente"}
+                        : t.dashboard.recent}
                   </span>
                </div>
             </div>
 
             <form action="/auth/signout" method="post" className="w-full">
                 <button className="w-full py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-xl transition-colors">
-                    Sair da Conta
+                    {t.dashboard.sign_out}
                 </button>
             </form>
         </div>
@@ -76,7 +87,7 @@ export function VerifiedDashboard({ user, profile }: VerifiedDashboardProps) {
       
       <p className="mt-8 text-xs text-center text-muted-foreground flex items-center gap-2">
          <ShieldCheck className="w-3 h-3" />
-         Protegido por VerifyLive Secure Enclave
+         {t.common.protected_by}
       </p>
 
     </div>

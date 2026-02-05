@@ -6,7 +6,7 @@ interface VerificationResult {
   success: boolean;
   details: {
     confidence: number;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 

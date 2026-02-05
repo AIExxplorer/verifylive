@@ -1,8 +1,9 @@
 "use client";
 
-import { Upload, FileText, CheckCircle2 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { Upload, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface PdfUploaderProps {
   onUpload: (file: File) => void;
@@ -12,6 +13,7 @@ interface PdfUploaderProps {
 export function PdfUploader({ onUpload, onBack }: PdfUploaderProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const { t } = useLanguage();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -19,12 +21,12 @@ export function PdfUploader({ onUpload, onBack }: PdfUploaderProps) {
       
       // Basic Validation
       if (selectedFile.type !== "application/pdf") {
-        toast.error("Apenas arquivos PDF são permitidos.");
+        toast.error(t.upload.only_pdf);
         return;
       }
       
       if (selectedFile.size > 5 * 1024 * 1024) {
-         toast.error("O arquivo deve ter no máximo 5MB.");
+         toast.error("Max 5MB"); // Keeping this simple or add to dict if needed
          return;
       }
 
@@ -44,9 +46,9 @@ export function PdfUploader({ onUpload, onBack }: PdfUploaderProps) {
     <div className="w-full max-w-md mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4">
       <div className="flex items-center justify-between">
          <button onClick={onBack} className="text-sm font-medium text-muted-foreground hover:text-foreground">
-           ← Voltar
+           ← {t.upload.back_button}
          </button>
-         <h2 className="text-xl font-bold">Upload de PDF</h2>
+         <h2 className="text-xl font-bold">{t.upload.upload_option}</h2>
          <div className="w-10"></div>
       </div>
 
@@ -56,9 +58,9 @@ export function PdfUploader({ onUpload, onBack }: PdfUploaderProps) {
             <Upload className="w-8 h-8 text-blue-500" />
           </div>
           <div className="text-center">
-            <p className="font-semibold text-foreground">Clique para selecionar</p>
+            <p className="font-semibold text-foreground">{t.upload.drag_drop}</p>
             <p className="text-xs text-muted-foreground mt-1">
-              Apenas PDF Original (Gov.br / CNH Digital)
+              {t.upload.upload_pdf_desc}
             </p>
           </div>
           <input 
@@ -78,7 +80,7 @@ export function PdfUploader({ onUpload, onBack }: PdfUploaderProps) {
              />
              <div className="absolute top-0 right-0 bg-emerald-500 text-white text-xs px-2 py-1 rounded-bl-lg flex items-center gap-1">
                <CheckCircle2 size={12} />
-               Carregado
+               {t.upload.pdf_selected}
              </div>
           </div>
           
@@ -86,14 +88,14 @@ export function PdfUploader({ onUpload, onBack }: PdfUploaderProps) {
             onClick={handleConfirm}
             className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-lg hover:brightness-110 transition-all shadow-lg"
           >
-            Confirmar Documento
+            {t.upload.confirm}
           </button>
           
           <button 
             onClick={() => { setPreviewUrl(null); setFile(null); }}
             className="w-full py-2 text-sm text-destructive hover:underline"
           >
-            Remover e Escolher Outro
+            {t.upload.remove_choose_other}
           </button>
         </div>
       )}

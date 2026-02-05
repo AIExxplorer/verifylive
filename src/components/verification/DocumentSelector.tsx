@@ -2,6 +2,7 @@
 
 import { IdCard, Globe, FileText, Camera, Upload } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export type DocumentType = "CNH" | "RG" | "PASSPORT";
 export type SubmissionMethod = "CAMERA" | "PDF";
@@ -12,6 +13,7 @@ interface DocumentSelectorProps {
 
 export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
   const [selectedDoc, setSelectedDoc] = useState<DocumentType | null>(null);
+  const { t } = useLanguage();
 
   // If a doc type is selected, show method choice (Camera vs PDF)
   if (selectedDoc) {
@@ -19,11 +21,11 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
       <div className="w-full max-w-md mx-auto space-y-6 animate-in zoom-in-95 duration-300">
         <div className="text-center space-y-2">
            <button onClick={() => setSelectedDoc(null)} className="text-xs text-muted-foreground hover:text-foreground mb-2">
-             ← Voltar
+             ← {t.upload.back_button}
            </button>
-           <h2 className="text-2xl font-bold">Como deseja enviar?</h2>
+           <h2 className="text-2xl font-bold">{t.upload.how_to_submit}</h2>
            <p className="text-sm text-muted-foreground">
-             Para {selectedDoc === "CNH" ? "CNH" : selectedDoc === "RG" ? "RG" : "Passaporte"}, você pode:
+             {selectedDoc === "CNH" ? t.upload.doc_cnh : selectedDoc === "RG" ? t.upload.doc_rg : t.upload.doc_passport}
            </p>
         </div>
 
@@ -37,8 +39,8 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
                <Camera className="w-6 h-6 text-emerald-600" />
              </div>
              <div className="text-left">
-               <div className="font-semibold">Usar Câmera (Físico)</div>
-               <div className="text-xs text-muted-foreground">Tenho o documento em mãos</div>
+               <div className="font-semibold">{t.upload.camera_option}</div>
+               <div className="text-xs text-muted-foreground">{t.upload.use_camera_desc}</div>
              </div>
            </button>
 
@@ -51,8 +53,8 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
                <Upload className="w-6 h-6 text-blue-600" />
              </div>
              <div className="text-left">
-               <div className="font-semibold">Upload Digital (PDF)</div>
-               <div className="text-xs text-muted-foreground">Baixado do Gov.br / App Oficial</div>
+               <div className="font-semibold">{t.upload.upload_option}</div>
+               <div className="text-xs text-muted-foreground">{t.upload.upload_pdf_desc}</div>
              </div>
            </button>
         </div>
@@ -63,9 +65,9 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
   return (
     <div className="w-full max-w-md mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold tracking-tight">Qual documento você vai usar?</h2>
+        <h2 className="text-2xl font-bold tracking-tight">{t.upload.which_doc}</h2>
         <p className="text-muted-foreground text-sm">
-          Selecione o documento para validação.
+          {t.upload.select_document}
         </p>
       </div>
 
@@ -78,8 +80,8 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
             <IdCard className="w-6 h-6 text-blue-500" />
           </div>
           <div>
-            <div className="font-semibold">CNH Digital ou Física</div>
-            <div className="text-xs text-muted-foreground">Carteira Nacional de Habilitação</div>
+            <div className="font-semibold">{t.upload.doc_cnh}</div>
+            <div className="text-xs text-muted-foreground">{t.upload.doc_cnh}</div>
           </div>
         </button>
 
@@ -91,8 +93,8 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
             <FileText className="w-6 h-6 text-green-500" />
           </div>
           <div>
-            <div className="font-semibold">RG (Identidade)</div>
-            <div className="text-xs text-muted-foreground">Registro Geral</div>
+            <div className="font-semibold">{t.upload.doc_rg}</div>
+            <div className="text-xs text-muted-foreground">{t.upload.doc_rg}</div>
           </div>
         </button>
 
@@ -104,8 +106,8 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
             <Globe className="w-6 h-6 text-purple-500" />
           </div>
           <div>
-            <div className="font-semibold">Passaporte</div>
-            <div className="text-xs text-muted-foreground">Para estrangeiros ou viagem</div>
+            <div className="font-semibold">{t.upload.doc_passport}</div>
+            <div className="text-xs text-muted-foreground">{t.upload.doc_passport}</div>
           </div>
         </button>
       </div>
@@ -113,7 +115,7 @@ export function DocumentSelector({ onSelect }: DocumentSelectorProps) {
       <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 text-[11px] text-amber-600 flex gap-2 items-start">
         <span className="mt-0.5">⚠️</span>
         <p>
-          Aceitamos apenas documentos originais. Cópias, prints ou fotos de telas **não serão validadas**.
+          {t.upload.warning_original}
         </p>
       </div>
     </div>

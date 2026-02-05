@@ -10,27 +10,29 @@ import { toast } from "sonner";
 import { logConsent } from "../../app/actions/logConsent";
 import { uploadDocument } from "../../app/actions/uploadDocument";
 import { completeVerification } from "../../app/actions/completeVerification";
+import { useLanguage } from "@/contexts/LanguageContext";
 // import { verifyLiveness } from "../../app/actions/verifyLiveness"; // Uncomment when ready
 
-const CHALLENGES = [
-  { title: "Neutral Face", instruction: "Look directly at the camera with a neutral expression." },
-  { title: "Turn Right", instruction: "Slowly turn your head to the right." },
-  { title: "Smile", instruction: "Give a natural smile." },
-  { title: "Zoom In", instruction: "Move your face closer to the camera." },
-  { title: "Proof of Possession", instruction: "Hold your hand near your face (without blocking it)." },
-];
-
 export function LivenessContainer() {
+  const { t } = useLanguage();
+
+  const CHALLENGES = [
+    { title: t.liveness.step_neutral, instruction: t.liveness.center_face },
+    { title: t.liveness.step_rotate, instruction: t.liveness.step_rotate }, // Reuse title as instruction implies action
+    { title: t.liveness.step_smile, instruction: t.liveness.step_smile },
+    { title: t.liveness.step_zoom, instruction: t.liveness.move_closer },
+    { title: t.liveness.step_sign, instruction: t.liveness.step_sign },
+  ];
   const [step, setStep] = useState<
     "COMPLIANCE" | "DOC_SELECT" | "DOC_FRONT" | "DOC_BACK" | "DOC_PDF" | "LIVENESS_INTRO" | "LIVENESS_ACTIVE" | "ANALYZING" | "RESULT"
   >("COMPLIANCE");
 
-  const [documentType, setDocumentType] = useState<DocumentType | null>(null);
-  const [submissionMethod, setSubmissionMethod] = useState<SubmissionMethod | null>(null);
+  const [, setDocumentType] = useState<DocumentType | null>(null);
+  const [, setSubmissionMethod] = useState<SubmissionMethod | null>(null);
   
-  const [docFront, setDocFront] = useState<Blob | null>(null);
-  const [docBack, setDocBack] = useState<Blob | null>(null);
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [, setDocFront] = useState<Blob | null>(null);
+  const [, setDocBack] = useState<Blob | null>(null);
+  const [, setPdfFile] = useState<File | null>(null);
 
   // Liveness State
   const cameraRef = useRef<CameraFeedRef>(null);
@@ -325,7 +327,7 @@ export function LivenessContainer() {
                <div className="absolute inset-0 border-t-4 border-emerald-500 rounded-full animate-spin"></div>
                <div className="absolute inset-4 border-t-4 border-blue-500 rounded-full animate-spin reverse"></div>
             </div>
-            <h2 className="text-2xl font-bold text-white animate-pulse">Analyzing Biometrics...</h2>
+            <h2 className="text-2xl font-bold text-white animate-pulse">{t.liveness.verifying}</h2>
             <p className="text-gray-400">Verifying liveness against Gemini AI</p>
         </div>
       )}
@@ -339,24 +341,24 @@ export function LivenessContainer() {
                 </div>
                 
                 <div className="space-y-2">
-                    <h2 className="text-3xl font-bold text-foreground">Verificação Concluída!</h2>
+                    <h2 className="text-3xl font-bold text-foreground">{t.liveness.success_verification}</h2>
                     <p className="text-muted-foreground">
-                        Sua identidade foi validada com sucesso. Os dados foram enviados de forma segura.
+                        {t.dashboard.verified_message}
                     </p>
                 </div>
 
                 <div className="bg-muted p-4 rounded-xl text-left space-y-3 text-sm">
                     <div className="flex justify-between items-center">
                         <span className="text-muted-foreground">Documentos:</span>
-                        <span className="text-green-500 font-bold flex items-center gap-1">✔ Enviados</span>
+                        <span className="text-green-500 font-bold flex items-center gap-1">✔ {t.common.success}</span>
                     </div>
                     <div className="flex justify-between items-center">
                         <span className="text-muted-foreground">Liveness Check:</span>
-                        <span className="text-green-500 font-bold flex items-center gap-1">✔ Aprovado (Gemini)</span>
+                        <span className="text-green-500 font-bold flex items-center gap-1">✔ {t.common.success} (Gemini)</span>
                     </div>
                     <div className="flex justify-between items-center">
                         <span className="text-muted-foreground">Log de Auditoria:</span>
-                        <span className="text-green-500 font-bold flex items-center gap-1">✔ Gravado</span>
+                        <span className="text-green-500 font-bold flex items-center gap-1">✔ {t.common.success}</span>
                     </div>
                 </div>
 
@@ -364,7 +366,7 @@ export function LivenessContainer() {
                   onClick={() => window.location.reload()} 
                   className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-lg hover:opacity-90 transition-all shadow-lg mt-4"
                 >
-                  Finalizar e Sair
+                  {t.dashboard.sign_out}
                 </button>
             </div>
         </div>

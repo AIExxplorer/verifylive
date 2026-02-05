@@ -2,6 +2,7 @@
 
 import { ShieldCheck, Lock, Clock, FileText, ExternalLink } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ComplianceModalProps {
   onAccept: () => void;
@@ -10,6 +11,7 @@ interface ComplianceModalProps {
 
 export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
   const [isOpen, setIsOpen] = useState(true);
+  const { t } = useLanguage();
 
   if (!isOpen) return null;
 
@@ -21,7 +23,7 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
         <div className="p-6 border-b border-border sticky top-0 bg-background/95 backdrop-blur z-10 rounded-t-2xl">
           <div className="flex items-center gap-3 text-primary">
              <ShieldCheck className="w-8 h-8" />
-             <h2 className="text-xl font-bold">Verificação de Identidade Segura</h2>
+             <h2 className="text-xl font-bold">{t.compliance.title}</h2>
           </div>
         </div>
 
@@ -34,7 +36,7 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
              </div>
              <div className="text-sm text-blue-300 space-y-1">
                <p>
-                 Em conformidade com a:
+                 {t.compliance.in_compliance_with}
                </p>
                <ul className="list-disc pl-4 space-y-1">
                  <li>
@@ -44,7 +46,7 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
                      rel="noopener noreferrer"
                      className="underline hover:text-blue-200 inline-flex items-center gap-1"
                    >
-                     Lei Geral de Proteção de Dados (LGPD) <ExternalLink size={10} />
+                     {t.compliance.lgpd} <ExternalLink size={10} />
                    </a>
                  </li>
                  <li>
@@ -54,7 +56,7 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
                      rel="noopener noreferrer"
                      className="underline hover:text-blue-200 inline-flex items-center gap-1"
                    >
-                     Lei 14.063 (Assinatura Eletrônica) <ExternalLink size={10} />
+                     {t.compliance.eletronic_signature} <ExternalLink size={10} />
                    </a>
                  </li>
                  <li>
@@ -64,7 +66,7 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
                      rel="noopener noreferrer"
                      className="underline hover:text-blue-200 inline-flex items-center gap-1"
                    >
-                     Lei Felca / ECA (Proteção Digital do Menor) <ExternalLink size={10} />
+                     {t.compliance.child_protection} <ExternalLink size={10} />
                    </a>
                  </li>
                </ul>
@@ -72,7 +74,7 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
           </div>
 
           <p className="text-sm text-foreground/80 leading-relaxed">
-            Para garantir a segurança do processo, prevenir fraudes de identidade e proteger menores de idade, precisamos coletar:
+            {t.compliance.description}
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -80,9 +82,9 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
               <div className="bg-emerald-500/10 w-fit p-2 rounded-lg text-emerald-500">
                  <Lock size={20} />
               </div>
-              <h3 className="font-semibold text-sm">Criptografia de Ponta</h3>
+              <h3 className="font-semibold text-sm">{t.compliance.encryption_title}</h3>
               <p className="text-xs text-muted-foreground">
-                Seus dados trafegam por canais seguros (TLS 1.3) e são armazenados criptografados.
+                {t.compliance.encryption_desc}
               </p>
             </div>
 
@@ -90,15 +92,15 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
               <div className="bg-amber-500/10 w-fit p-2 rounded-lg text-amber-500">
                  <Clock size={20} />
               </div>
-              <h3 className="font-semibold text-sm">TTL de 24 Horas</h3>
+              <h3 className="font-semibold text-sm">{t.compliance.ttl_title}</h3>
               <p className="text-xs text-muted-foreground">
-                Imagens e dados temporários são excluídos automaticamente após a verificação.
+                {t.compliance.ttl_desc}
               </p>
             </div>
           </div>
 
           <div className="text-xs text-muted-foreground space-y-2 bg-muted/50 p-4 rounded-lg border border-border">
-            <p className="font-semibold">Bases Legais Detalhadas:</p>
+            <p className="font-semibold">{t.compliance.legal_bases}</p>
             <ul className="list-disc pl-4 space-y-1">
                <li>
                    <a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm#art7" target="_blank" className="hover:underline">
@@ -126,13 +128,13 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
             onClick={onDecline}
             className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
-            Não aceito
+            {t.compliance.decline}
           </button>
           <button 
             onClick={() => { setIsOpen(false); onAccept(); }}
             className="px-6 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-lg hover:brightness-110 transition-all shadow-lg shadow-primary/20"
           >
-            Concordar e Continuar
+            {t.compliance.accept_continue}
           </button>
         </div>
       </div>

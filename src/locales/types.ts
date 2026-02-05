@@ -1,0 +1,78 @@
+export interface Dictionary {
+  common: {
+    loading: string;
+    error: string;
+    success: string;
+    protected_by: string;
+  };
+  auth: {
+    welcome_title: string;
+    welcome_message: string;
+    login_google: string;
+    redirecting: string;
+    terms_disclaimer: string;
+    access_denied: string;
+  };
+  compliance: {
+    title: string;
+    description: string;
+    in_compliance_with: string;
+    lgpd: string;
+    eletronic_signature: string;
+    child_protection: string;
+    encryption_title: string;
+    encryption_desc: string;
+    ttl_title: string;
+    ttl_desc: string;
+    legal_bases: string;
+    decline: string;
+    accept_continue: string;
+  };
+  dashboard: {
+    verified_title: string;
+    verified_message: string;
+    verified_at: string;
+    recent: string;
+    sign_out: string;
+  };
+  liveness: {
+    waiting_camera: string;
+    face_not_detected: string;
+    move_closer: string;
+    center_face: string;
+    step_neutral: string;
+    step_rotate: string;
+    step_smile: string;
+    step_zoom: string;
+    step_sign: string;
+    verifying: string;
+    success_verification: string;
+    failed_verification: string;
+    try_again: string;
+  };
+  upload: {
+    select_document: string;
+    camera_option: string;
+    upload_option: string;
+    front_side: string;
+    back_side: string;
+    take_photo: string;
+    retake: string;
+    confirm: string;
+    drag_drop: string;
+    back_button: string;
+    how_to_submit: string;
+    use_camera_desc: string;
+    upload_pdf_desc: string;
+    which_doc: string;
+    doc_cnh: string;
+    doc_rg: string;
+    doc_passport: string;
+    warning_original: string;
+    position_doc: string;
+    starting_camera: string;
+    only_pdf: string;
+    remove_choose_other: string;
+    pdf_selected: string;
+  };
+}

@@ -109,59 +109,37 @@ Este projeto se alinha com os temas **Action Era** e **Omni-Agent** através de:
 
 ### Stack Tecnológico Completo
 
+```mermaid
+graph TD
+    subgraph Frontend [Frontend (Next.js 16+)]
+        UI[User Interface] -->|Stream| Camera[Camera Feed / MediaPipe]
+        UI -->|Auth| Auth[Supabase Auth]
+        UI -->|i18n| I18n[Language Context]
+        Camera -->|Landmarks| FaceMesh[FaceMesh Detector]
+    end
+
+    subgraph Backend [Server Actions]
+        Verify[verifyLiveness.ts] -->|Frames + Prompt| Gemini[Gemini 3 API]
+        Upload[uploadDocument.ts] -->|File| Storage[Supabase Storage]
+        Log[completeVerification.ts] -->|Result| DB[Supabase DB]
+    end
+
+    subgraph Database [Supabase]
+        DB -->|Profiles| ProfilesTable[verifylive_profiles]
+        DB -->|Audit| AuditTable[verifylive_audit_logs]
+        Storage -->|Docs| DocsBucket[verifylive-docs]
+    end
+
+    UI --> Verify
+    UI --> Upload
+    Verify -->|JSON Analysis| UI
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        FRONTEND (Next.js 16+)                   │
-├─────────────────────────────────────────────────────────────────┤
-│  • App Router (Server Components + Client Components)          │
-│  • TypeScript Strict Mode                                       │
-│  • TailwindCSS 4 + Custom Design System                        │
-│  • Sonner (Toast Notifications)                                 │
-│  • MediaPipe FaceMesh (Browser-side Landmark Detection)        │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    SERVER ACTIONS (Next.js)                     │
-├─────────────────────────────────────────────────────────────────┤
-│  • logConsent.ts      → Registro de aceite LGPD                │
-│  • uploadDocument.ts  → Upload seguro para Supabase Storage    │
-│  • completeVerification.ts → Persistência de resultados        │
-│  • verifyLiveness.ts  → Integração com Gemini 3 API            │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     BACKEND (Supabase)                          │
-├─────────────────────────────────────────────────────────────────┤
-│  PostgreSQL Database:                                           │
-│  • verifylive_profiles (Perfis de Usuário + Status)            │
-│  • verifylive_audit_logs (Logs de Auditoria Imutáveis)         │
-│                                                                 │
-│  Storage Buckets:                                               │
-│  • verifylive-docs (Documentos - RG, CNH, PDF)                 │
-│  • verifylive-proofs (Frames de Liveness)                      │
-│                                                                 │
-│  Auth:                                                          │
-│  • Google OAuth Provider                                        │
-│  • Row Level Security (RLS) Policies                           │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                        AI ENGINE                                │
-├─────────────────────────────────────────────────────────────────┤
-│  Gemini 3 Multimodal API:                                      │
-│  • Model: gemini-2.0-flash-thinking-exp                        │
-│  • Input: 5 Frames JPEG + Prompt Forense                       │
-│  • Output: JSON Estruturado (is_real, confidence, anomalies)   │
-│                                                                 │
-│  MediaPipe Tasks Vision:                                        │
-│  • FaceMesh (468 Landmarks em tempo real)                      │
-│  • Detecção de Face Presence                                   │
-│  • Canvas Overlay para Feedback Visual                         │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+### 🌍 Internacionalização (i18n)
+
+- **Suporte Multilíngue**: Português (PT), Inglês (EN) e Espanhol (ES).
+- **Detecção Automática**: Preferência do navegador ou seleção manual.
+- **Switcher Flutuante**: Interface minimalista com Glassmorphism.
 
 ### Badges Tecnológicos
 

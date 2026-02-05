@@ -5,6 +5,8 @@ import { Geist, Geist_Mono } from "next/font/google"; // Use built-in next/font
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppFooter } from "@/components/AppFooter";
 import { DotScreenShader } from "@/components/ui/dot-shader-background";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -42,20 +44,23 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="fixed inset-0 -z-10 pointer-events-none">
-             <DotScreenShader />
-          </div>
-          {children}
-          <AppFooter />
-          <Analytics />
-          <SpeedInsights />
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="fixed inset-0 -z-10 pointer-events-none">
+               <DotScreenShader />
+            </div>
+            {children}
+            <LanguageSwitcher />
+            <AppFooter />
+            <Analytics />
+            <SpeedInsights />
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

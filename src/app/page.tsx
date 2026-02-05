@@ -6,7 +6,16 @@ import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+
+  
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch (error) {
+    // Keep user as null if token is invalid
+    console.warn("Auth check failed (likely invalid token):", error);
+  }
 
   // If user is logged in, check verification status
   let profile = null;

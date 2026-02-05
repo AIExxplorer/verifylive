@@ -3,9 +3,11 @@
 import { createClient } from "../../lib/supabase/client";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function LoginScreen() {
   const [loading, setLoading] = useState(false);
+  const { t } = useLanguage();
 
   const handleGoogleLogin = async () => {
     try {
@@ -27,8 +29,8 @@ export function LoginScreen() {
       
     } catch (error: unknown) {
       console.error(error);
-      const message = error instanceof Error ? error.message : "Erro desconhecido";
-      toast.error("Erro ao iniciar login: " + message);
+      const message = error instanceof Error ? error.message : t.common.error;
+      toast.error(`${t.common.error}: ${message}`);
       setLoading(false);
     }
   };
@@ -43,9 +45,9 @@ export function LoginScreen() {
            </svg>
         </div>
 
-        <h1 className="text-3xl font-bold tracking-tight">Bem-vindo ao VerifyLive</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t.auth.welcome_title}</h1>
         <p className="text-muted-foreground">
-          Para garantir a segurança e integridade da sua verificação biométrica, é necessário autenticar-se.
+          {t.auth.welcome_message}
         </p>
       </div>
 
@@ -57,7 +59,7 @@ export function LoginScreen() {
         {loading ? (
              <span className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
-                Redirecionando...
+                {t.auth.redirecting}
              </span>
         ) : (
             <>
@@ -79,13 +81,13 @@ export function LoginScreen() {
                     fill="#EA4335"
                   />
                 </svg>
-               Entrar com Google
+               {t.auth.login_google}
             </>
         )}
       </button>
 
       <p className="text-xs text-muted-foreground pt-8 max-w-xs text-center">
-        Ao continuar, você concorda com nossos Termos de Uso e Política de Privacidade de Dados Biométricos (LGPD).
+        {t.auth.terms_disclaimer}
       </p>
     </div>
   );

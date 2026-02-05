@@ -15,17 +15,17 @@ export async function createClient() {
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
-        set(name: string, value: string, options: Record<string, any>) {
+        set(name: string, value: string, options: Record<string, unknown>) {
           try {
             cookieStore.set({ name, value, ...options });
-          } catch (error) {
+          } catch {
             // Ignored
           }
         },
-        remove(name: string, options: Record<string, any>) {
+        remove(name: string, options: Record<string, unknown>) {
           try {
             cookieStore.set({ name, value: "", ...options });
-          } catch (error) {
+          } catch {
             // Ignored
           }
         },
@@ -49,9 +49,12 @@ export async function createAdminClient() {
     serviceRoleKey, 
     {
       cookies: {
-        get(name: string) { return "" },
-        set(name: string, value: string, options: Record<string, any>) {},
-        remove(name: string, options: Record<string, any>) {},
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        get(_name: string) { return "" },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        set(_name: string, _value: string, _options: Record<string, unknown>) {},
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        remove(_name: string, _options: Record<string, unknown>) {},
       },
     }
   );
