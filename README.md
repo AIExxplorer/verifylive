@@ -550,7 +550,7 @@ copies of the Software...
 
 _Biometric Identity Verification for the AI Era_
 
-**Built with ❤️ for Gemini 3 Hackathon**
+**Built for Gemini 3 Hackathon | Google DeepMind**
 
 ```text
    █████╗ ██╗███████╗██╗  ██╗██╗  ██╗
