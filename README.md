@@ -111,20 +111,20 @@ Este projeto se alinha com os temas **Action Era** e **Omni-Agent** através de:
 
 ```mermaid
 graph TD
-    subgraph Frontend [Frontend (Next.js 16+)]
-        UI[User Interface] -->|Stream| Camera[Camera Feed / MediaPipe]
+    subgraph Frontend ["Frontend (Next.js 16+)"]
+        UI[User Interface] -->|Stream| Camera["Camera Feed / MediaPipe"]
         UI -->|Auth| Auth[Supabase Auth]
         UI -->|i18n| I18n[Language Context]
         Camera -->|Landmarks| FaceMesh[FaceMesh Detector]
     end
 
-    subgraph Backend [Server Actions]
+    subgraph Backend ["Server Actions"]
         Verify[verifyLiveness.ts] -->|Frames + Prompt| Gemini[Gemini 3 API]
         Upload[uploadDocument.ts] -->|File| Storage[Supabase Storage]
         Log[completeVerification.ts] -->|Result| DB[Supabase DB]
     end
 
-    subgraph Database [Supabase]
+    subgraph Database ["Supabase"]
         DB -->|Profiles| ProfilesTable[verifylive_profiles]
         DB -->|Audit| AuditTable[verifylive_audit_logs]
         Storage -->|Docs| DocsBucket[verifylive-docs]
