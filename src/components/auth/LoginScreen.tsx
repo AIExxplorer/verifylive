@@ -1,9 +1,11 @@
 "use client";
 
+
 import { createClient } from "../../lib/supabase/client";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getURL } from "@/lib/utils";
 
 export function LoginScreen() {
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,7 @@ export function LoginScreen() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: `${getURL()}auth/callback?next=${encodeURIComponent("/dashboard")}`,
           queryParams: {
             access_type: "offline",
             prompt: "consent",
