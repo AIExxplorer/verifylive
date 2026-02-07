@@ -35,10 +35,15 @@ export async function GET(request: Request) {
         // Isso elimina problemas com Env Vars desatualizadas (NEXT_PUBLIC_APP_URL).
         
         const host = request.headers.get("x-forwarded-host") || request.headers.get("host");
-        const protocol = request.headers.get("x-forwarded-proto") || "https";
+        let protocol = request.headers.get("x-forwarded-proto");
         
         // Removemos barras finais do host se existirem (raro, mas preventivo)
         const cleanHost = host?.replace(/\/$/, "");
+
+        // Se não houver protocolo definido (localhost geralmente), detecta se é localhost para usar http
+        if (!protocol) {
+          protocol = cleanHost?.includes("localhost") ? "http" : "https";
+        }
         
         const siteUrl = `${protocol}://${cleanHost}`;
 
@@ -50,8 +55,13 @@ export async function GET(request: Request) {
 
   // Fallback for error case - try to construct a valid URL or use a safe default
   const host = request.headers.get("x-forwarded-host") || request.headers.get("host");
-  const protocol = request.headers.get("x-forwarded-proto") || "https";
+  let protocol = request.headers.get("x-forwarded-proto");
   const cleanHost = host?.replace(/\/$/, "");
+
+  if (!protocol) {
+    protocol = cleanHost?.includes("localhost") ? "http" : "https";
+  }
+
   const errorOrigin = cleanHost ? `${protocol}://${cleanHost}` : "https://verifylive.vercel.app";
 
   return NextResponse.redirect(`${errorOrigin}/auth/auth-code-error`);
