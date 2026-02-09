@@ -11,6 +11,13 @@ export function getURL() {
     process.env.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
     "http://localhost:3000";
 
+  // Prioritize window.location.origin if available (client-side)
+  // This ensures that redirects work correctly on localhost and preview deployments
+  // without needing to manually set NEXT_PUBLIC_APP_URL every time.
+  if (typeof window !== "undefined") {
+    url = window.location.origin;
+  }
+
   // Make sure to include `https://` when not localhost.
   url = url.includes("http") ? url : `https://${url}`;
   
