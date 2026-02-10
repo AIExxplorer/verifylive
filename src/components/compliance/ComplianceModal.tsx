@@ -102,19 +102,39 @@ export function ComplianceModal({ onAccept, onDecline }: ComplianceModalProps) {
           <div className="text-xs text-muted-foreground space-y-2 bg-muted/50 p-4 rounded-lg border border-border">
             <p className="font-semibold">{t.compliance.legal_bases}</p>
             <ul className="list-disc pl-4 space-y-1">
+              <li>
+                <a 
+                  href="https://gdpr.eu/tag/gdpr/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:underline inline-flex items-center gap-1"
+                >
+                  {t.compliance.gdpr} <ExternalLink size={10} />
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://oag.ca.gov/privacy/ccpa" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:underline inline-flex items-center gap-1"
+                >
+                  {t.compliance.ccpa} <ExternalLink size={10} />
+                </a>
+              </li>
                <li>
-                   <a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm#art7" target="_blank" className="hover:underline">
-                      Art. 7º, inc. II, LGPD (Cumprimento de obrigação legal)
+                   <a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm#art7" target="_blank" className="hover:underline inline-flex items-center gap-1">
+                      {t.compliance.lgpd} (Art. 7 - O. Legal) <ExternalLink size={10} />
                    </a>
                </li>
                <li>
-                   <a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm#art11" target="_blank" className="hover:underline">
-                      Art. 11, inc. II, alínea &apos;g&apos;, LGPD (Prevenção à fraude)
+                   <a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm#art11" target="_blank" className="hover:underline inline-flex items-center gap-1">
+                      {t.compliance.lgpd} (Art. 11 - Fraude) <ExternalLink size={10} />
                    </a>
                </li>
                <li>
-                   <a href="http://www.planalto.gov.br/ccivil_03/leis/l8069.htm" target="_blank" className="hover:underline">
-                      ECA/Lei Felca (Proteção contra exposição e adultização precoce)
+                   <a href="http://www.planalto.gov.br/ccivil_03/leis/l8069.htm" target="_blank" className="hover:underline inline-flex items-center gap-1">
+                      ECA/Lei Felca (Proteção Menor) <ExternalLink size={10} />
                    </a>
                </li>
             </ul>

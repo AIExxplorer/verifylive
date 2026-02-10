@@ -27,6 +27,10 @@ export interface Dictionary {
     legal_bases: string;
     decline: string;
     accept_continue: string;
+    country_select_title: string;
+    country_select_desc: string;
+    gdpr: string;
+    ccpa: string;
   };
   dashboard: {
     verified_title: string;
@@ -34,6 +38,12 @@ export interface Dictionary {
     verified_at: string;
     recent: string;
     sign_out: string;
+    renew_verification: string;
+    renew_confirm_title: string;
+    renew_confirm_desc: string;
+    renew_confirm_confirm: string;
+    renew_confirm_cancel: string;
+    archived_at: string;
   };
   liveness: {
     waiting_camera: string;
@@ -42,7 +52,10 @@ export interface Dictionary {
     center_face: string;
     step_neutral: string;
     step_rotate: string;
+    step_rotate_left: string;
+    step_rotate_right: string;
     step_smile: string;
+    step_blink: string;
     step_zoom: string;
     step_sign: string;
     verifying: string;

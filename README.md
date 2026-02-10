@@ -115,25 +115,56 @@ This project aligns with the **Action Era** and **Omni-Agent** themes through:
 
 ### Complete Tech Stack
 
+| Category          | Technology                                 | Version  | Purpose                                                  |
+| :---------------- | :----------------------------------------- | :------- | :------------------------------------------------------- |
+| **Language**      | TypeScript                                 | 5+       | Strict typing across the entire codebase                 |
+| **Language**      | SQL                                        | —        | Database migrations, RLS policies, triggers              |
+| **Framework**     | Next.js (App Router)                       | 16+      | Full-stack SSR, Server Actions, API Routes               |
+| **UI Library**    | React                                      | 19+      | Component-based user interface                           |
+| **Styling**       | Tailwind CSS                               | 4        | Utility-first CSS with `tailwindcss-animate`             |
+| **AI / ML**       | Google Gemini AI (`@google/generative-ai`) | 0.24+    | Multimodal forensic liveness analysis                    |
+| **AI / ML**       | MediaPipe Tasks Vision                     | 0.10+    | 468-point real-time facial landmark detection (FaceMesh) |
+| **Backend**       | Supabase (PostgreSQL + Auth + Storage)     | —        | Database, Google OAuth 2.0, file storage, RLS            |
+| **Hosting**       | Vercel                                     | —        | Edge deployment, analytics, speed insights               |
+| **ORM**           | Prisma                                     | 5+       | Database schema management                               |
+| **API Docs**      | Swagger UI / next-swagger-doc              | —        | Interactive API documentation                            |
+| **Icons**         | Lucide React                               | 0.562+   | SVG icon library                                         |
+| **Notifications** | Sonner                                     | 2+       | Toast notification system                                |
+| **Quality**       | Husky + Commitlint                         | 9+ / 20+ | Git hooks & Conventional Commits enforcement             |
+| **Linting**       | ESLint                                     | 9+       | Code quality and consistency                             |
+| **Analytics**     | Vercel Analytics + Speed Insights          | —        | Usage tracking & performance monitoring                  |
+| **Browser API**   | WebRTC / getUserMedia                      | —        | Real-time camera access for biometric capture            |
+
+### Architecture Diagram
+
 ```mermaid
 graph TD
-    subgraph Frontend ["Frontend (Next.js 16+)"]
-        UI[User Interface] -->|Stream| Camera["Camera Feed / MediaPipe"]
-        UI -->|Auth| Auth[Supabase Auth]
-        UI -->|i18n| I18n[Language Context]
-        Camera -->|Landmarks| FaceMesh[FaceMesh Detector]
+    subgraph Frontend ["Frontend — Next.js 16 + React 19 + TypeScript 5"]
+        UI["UI (Tailwind CSS 4 + Lucide Icons)"] -->|Stream| Camera["Camera Feed (WebRTC getUserMedia)"]
+        UI -->|Auth| Auth["Supabase Auth (Google OAuth 2.0)"]
+        UI -->|i18n| I18n["Language Context (PT / EN / ES)"]
+        Camera -->|Landmarks| FaceMesh["MediaPipe FaceMesh (468 points)"]
     end
 
-    subgraph Backend ["Server Actions"]
-        Verify[verifyLiveness.ts] -->|Frames + Prompt| Gemini[Gemini 3 API]
-        Upload[uploadDocument.ts] -->|File| Storage[Supabase Storage]
-        Log[completeVerification.ts] -->|Result| DB[Supabase DB]
+    subgraph Backend ["Server Actions — Next.js App Router"]
+        Verify["verifyLiveness.ts"] -->|5 Frames + Forensic Prompt| Gemini["Gemini 3 Multimodal API"]
+        Upload["uploadDocument.ts"] -->|File (MIME + Size Validation)| Storage["Supabase Storage (AES-256)"]
+        Log["completeVerification.ts"] -->|Result + Audit| DB["Supabase PostgreSQL"]
+        Reset["resetVerification.ts"] -->|Archive + Reset| DB
     end
 
-    subgraph Database ["Supabase"]
-        DB -->|Profiles| ProfilesTable[verifylive_profiles]
-        DB -->|Audit| AuditTable[verifylive_audit_logs]
-        Storage -->|Docs| DocsBucket[verifylive-docs]
+    subgraph Database ["Supabase Cloud (PostgreSQL + RLS)"]
+        DB -->|Profiles| ProfilesTable["verifylive_profiles"]
+        DB -->|Audit| AuditTable["verifylive_audit_logs (Immutable)"]
+        DB -->|Consent| ConsentTable["legal_consents"]
+        Storage -->|Docs| DocsBucket["verifylive-docs (Private)"]
+    end
+
+    subgraph DevOps ["DevOps & Quality"]
+        Husky["Husky (Git Hooks)"] -->|Pre-commit| Commitlint["Commitlint (Conventional Commits)"]
+        ESLint["ESLint 9"] -->|Lint| CI["Vercel CI/CD"]
+        Prisma["Prisma ORM"] -->|Schema| DB
+        Swagger["Swagger UI"] -->|API Docs| Backend
     end
 ```
 
@@ -153,6 +184,12 @@ graph TD
 ![Gemini](https://img.shields.io/badge/Gemini%203-AI-4285F4?style=flat-square&logo=google&logoColor=white)
 ![MediaPipe](https://img.shields.io/badge/MediaPipe-Vision-FF6F00?style=flat-square&logo=google&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-Deploy-000000?style=flat-square&logo=vercel&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?style=flat-square&logo=prisma&logoColor=white)
+![Husky](https://img.shields.io/badge/Husky-Git%20Hooks-42B983?style=flat-square&logo=git&logoColor=white)
+![Commitlint](https://img.shields.io/badge/Commitlint-Conventional-E10098?style=flat-square&logo=conventional-commits&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-API%20Docs-85EA2D?style=flat-square&logo=swagger&logoColor=black)
+![OAuth](https://img.shields.io/badge/Google%20OAuth-2.0-EA4335?style=flat-square&logo=google&logoColor=white)
+![WebRTC](https://img.shields.io/badge/WebRTC-Camera-333333?style=flat-square&logo=webrtc&logoColor=white)
 
 ---
 
@@ -465,7 +502,7 @@ CREATE TABLE verifylive_audit_logs (
 
 ## 🤝 Contributing
 
-This project uses **Husky** for git hooks and **Commitlint** for conventional commits.
+This project uses **Husky** for git hooks, **Commitlint** for conventional commits, **ESLint 9** for code quality, and **Prisma** for database schema management. All code is written in **TypeScript** with strict mode enabled.
 
 ### Commit Standards
 

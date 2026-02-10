@@ -5,6 +5,9 @@ import { User } from "@supabase/supabase-js";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Image from "next/image";
 
+import { useState } from "react";
+import { RenewVerificationDialog } from "./RenewVerificationDialog";
+
 interface Profile {
   full_name?: string | null;
   verified_at?: string | null;
@@ -14,10 +17,12 @@ interface Profile {
 interface VerifiedDashboardProps {
   user: User;
   profile: Profile | null;
+  archivedAt?: string | null;
 }
 
-export function VerifiedDashboard({ user, profile }: VerifiedDashboardProps) {
+export function VerifiedDashboard({ user, profile, archivedAt }: VerifiedDashboardProps) {
   const { t } = useLanguage();
+  const [isRenewOpen, setIsRenewOpen] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] p-4 animate-in fade-in slide-in-from-bottom-8">
@@ -75,13 +80,31 @@ export function VerifiedDashboard({ user, profile }: VerifiedDashboardProps) {
                         : t.dashboard.recent}
                   </span>
                </div>
+
+               {archivedAt && (
+                   <div className="flex justify-between text-xs pt-1 border-t border-border/50">
+                      <span className="text-muted-foreground">{t.dashboard.archived_at}</span>
+                      <span className="font-mono font-medium text-amber-600/70">
+                         {new Date(archivedAt).toLocaleDateString()}
+                      </span>
+                   </div>
+               )}
             </div>
 
-            <form action="/auth/signout" method="post" className="w-full">
-                <button className="w-full py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-xl transition-colors">
-                    {t.dashboard.sign_out}
-                </button>
-            </form>
+            <div className="w-full space-y-3">
+                 <button 
+                    onClick={() => setIsRenewOpen(true)}
+                    className="w-full py-3 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 border border-amber-500/20 font-medium rounded-xl transition-all"
+                 >
+                    {t.dashboard.renew_verification}
+                 </button>
+
+                 <form action="/auth/signout" method="post" className="w-full">
+                    <button className="w-full py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-xl transition-colors">
+                        {t.dashboard.sign_out}
+                    </button>
+                </form>
+            </div>
         </div>
       </div>
       
@@ -89,6 +112,11 @@ export function VerifiedDashboard({ user, profile }: VerifiedDashboardProps) {
          <ShieldCheck className="w-3 h-3" />
          {t.common.protected_by}
       </p>
+
+      <RenewVerificationDialog 
+        isOpen={isRenewOpen} 
+        onClose={() => setIsRenewOpen(false)} 
+      />
 
     </div>
   );
