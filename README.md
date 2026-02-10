@@ -139,29 +139,29 @@ This project aligns with the **Action Era** and **Omni-Agent** themes through:
 
 ```mermaid
 graph TD
-    subgraph Frontend ["Frontend — Next.js 16 + React 19 + TypeScript 5"]
-        UI["UI (Tailwind CSS 4 + Lucide Icons)"] -->|Stream| Camera["Camera Feed (WebRTC getUserMedia)"]
-        UI -->|Auth| Auth["Supabase Auth (Google OAuth 2.0)"]
-        UI -->|i18n| I18n["Language Context (PT / EN / ES)"]
-        Camera -->|Landmarks| FaceMesh["MediaPipe FaceMesh (468 points)"]
+    subgraph Frontend ["Frontend - Next.js 16 + React 19 + TypeScript 5"]
+        UI["UI - Tailwind CSS 4 + Lucide Icons"] -->|Stream| Camera["Camera Feed - WebRTC"]
+        UI -->|Auth| Auth["Supabase Auth - Google OAuth 2.0"]
+        UI -->|i18n| I18n["Language Context - PT / EN / ES"]
+        Camera -->|Landmarks| FaceMesh["MediaPipe FaceMesh - 468 points"]
     end
 
-    subgraph Backend ["Server Actions — Next.js App Router"]
+    subgraph Backend ["Server Actions - Next.js App Router"]
         Verify["verifyLiveness.ts"] -->|5 Frames + Forensic Prompt| Gemini["Gemini 3 Multimodal API"]
-        Upload["uploadDocument.ts"] -->|File (MIME + Size Validation)| Storage["Supabase Storage (AES-256)"]
+        Upload["uploadDocument.ts"] -->|File Upload + Validation| Storage["Supabase Storage - AES-256"]
         Log["completeVerification.ts"] -->|Result + Audit| DB["Supabase PostgreSQL"]
         Reset["resetVerification.ts"] -->|Archive + Reset| DB
     end
 
-    subgraph Database ["Supabase Cloud (PostgreSQL + RLS)"]
+    subgraph Database ["Supabase Cloud - PostgreSQL + RLS"]
         DB -->|Profiles| ProfilesTable["verifylive_profiles"]
-        DB -->|Audit| AuditTable["verifylive_audit_logs (Immutable)"]
+        DB -->|Audit| AuditTable["verifylive_audit_logs"]
         DB -->|Consent| ConsentTable["legal_consents"]
-        Storage -->|Docs| DocsBucket["verifylive-docs (Private)"]
+        Storage -->|Docs| DocsBucket["verifylive-docs"]
     end
 
-    subgraph DevOps ["DevOps & Quality"]
-        Husky["Husky (Git Hooks)"] -->|Pre-commit| Commitlint["Commitlint (Conventional Commits)"]
+    subgraph DevOps ["DevOps and Quality"]
+        Husky["Husky - Git Hooks"] -->|Pre-commit| Commitlint["Commitlint - Conventional Commits"]
         ESLint["ESLint 9"] -->|Lint| CI["Vercel CI/CD"]
         Prisma["Prisma ORM"] -->|Schema| DB
         Swagger["Swagger UI"] -->|API Docs| Backend
@@ -594,7 +594,7 @@ _Biometric Identity Verification for the AI Era_
 **Built for Gemini 3 Hackathon | Google DeepMind**
 
 ```text
-   █████╗ ██╗███████╗██╗  ██╗██╗  ██╗
+    █████╗ ██╗███████╗██╗  ██╗██╗  ██╗
    ██╔══██╗██║██╔════╝╚██╗██╔╝╚██╗██╔╝
    ███████║██║█████╗   ╚███╔╝  ╚███╔╝
    ██╔══██║██║██╔══╝   ██╔██╗  ██╔██╗
